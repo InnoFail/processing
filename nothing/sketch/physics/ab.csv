@@ -1,0 +1,26 @@
+"hope yo like it"
+
+"add","hello","vert",0,0,300,400
+"child","0","hello","hor",1
+"child","1","hello","vert",1
+"child","10","0","hor",1
+"child","11","0","hor",1
+"child","12","0","hor",1
+"bgcolor","1",255
+"bgcolor","10",100
+"bgcolor","11",155
+"bgcolor","12",200
+"update","hello"
+"update","0"
+"update","1"
+"update","10"
+"update","11"
+"update","12"
+"write","11","helloooo"
+"up_to_date","hello"
+"up_to_date","0"
+"up_to_date","1"
+"up_to_date","10"
+"up_to_date","11"
+"up_to_date","12"
+"animation_touch","0","1","lay",1,4,0.1,1
