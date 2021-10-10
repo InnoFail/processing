@@ -7,6 +7,99 @@ boolean keyisp=false,mouseisp=false,mouseisd=false,keycl=false,mousecl=false,mou
 float delx,dely,time,scroll_num;
 int text_height=15;
 
+//camera-----------------------
+float fore,side,up;
+float alpha,beta,gamma;
+vector eye,to_view,mediate,st_med;
+
+void camera_setup(){
+ fore=side=up=0;
+ alpha=beta=gamma=0;
+ eye=new vector(0,0,0);
+ to_view=new vector(0,0,0);
+ mediate=new vector(0,0,0);
+ st_med=new vector(0,1,0);
+}
+
+void camera_p(){
+ if(keyisp==true){
+    if(mouseisp==false){
+   switch(keyp){
+    case "a":
+    fore++;
+    break;
+    case "d":
+    fore--;
+    break;
+    case "w":
+    side++;
+    break;
+    case "s":
+    side--;
+    break;
+    case "j":
+    up--;
+    break;
+    case "k":
+    up++;
+    break;
+   }
+  }else{
+   switch(keyp){
+    case "w":
+    alpha+=0.001;
+    break;
+    case "s":
+    alpha-=0.001;
+    break;
+    case "a":
+    beta-=0.001;
+    break;
+    case "d":
+    beta+=0.001;
+    break;
+    case "j":
+    gamma-=0.001;
+    break;
+    case "k":
+    gamma+=0.001;
+    break;
+   }
+  }
+  }
+   
+  if(alpha>=360){
+  alpha=0;
+  }
+  if(beta>=360){
+  beta=0;
+  }
+  if(gamma>=360){
+  gamma=0;
+  }
+ mediate.apply(mediate.n(fore,side,up));
+ mediate.apply(mediate.rotx(alpha).roty(beta).rotz(gamma));
+ eye.apply(eye.add(mediate));
+ st_med.apply(st_med.rotx(alpha).roty(beta).rotz(gamma));
+ to_view=eye.add(st_med.normalize().scalar_mul(10));
+ println(alpha," ",beta," ",gamma);
+ fore=side=up=0;
+ st_med=new vector(0,1,0);
+     //pushMatrix();
+     //fill(0,255,0);
+     //translate(100+eye.x,100+eye.y,100+eye.z);
+     //box(10);
+     //popMatrix();
+     //pushMatrix();
+     //fill(0,0,255);
+     //translate(100+to_view.x,100+to_view.y,100+to_view.z);
+     //box(10);
+     //popMatrix();
+ camera(eye.x, eye.y, eye.z, to_view.x,  to_view.y, to_view.z,0.0, 1.0, 0.0);
+}
+
+//------------------------------
+
 void init_controls(){
      this.keyp=this.mousep=this.keyclp=this.spkey=this.spkeycl=new String();
  }
