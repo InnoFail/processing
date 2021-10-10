@@ -1,9 +1,16 @@
 int box_num=2;
-int fore,side;
+float fore,side,up;
+float alpha,beta,gamma;
+vector eye,to_view,mediate,st_med;
 
 void setup(){
  size(300,400,P3D);
- fore=side=0;
+ fore=side=up=0;
+ alpha=beta=gamma=0;
+ eye=new vector(0,0,0);
+ to_view=new vector(0,0,0);
+ mediate=new vector(0,0,0);
+ st_med=new vector(0,1,0);
 }
 
 void draw(){
@@ -19,27 +26,5 @@ void draw(){
    }
   }
  }
- move();
-  camera(fore, side, 120.0, 50.0, 50.0, 0.0,0.0, 1.0, 0.0);
- //rect(0,0,100,100);
-}
-
-
-void move(){
-  if(keyisp==true){
-   switch(keyp){
-    case "w":
-    fore++;
-    break;
-    case "s":
-    fore--;
-    break;
-    case "a":
-    side--;
-    break;
-    case "d":
-    side++;
-    break;
-   }
-  }
+ camera_p();
 }
