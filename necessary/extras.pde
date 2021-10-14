@@ -27,6 +27,10 @@ class edit{
 
 
 
+  
+
+
+
 class list<T>{
   T[] l;
   int index,max;
@@ -68,6 +72,25 @@ class list<T>{
          this.l[index]=s;
     }
   }
+  
+  int bi_search(T element,int st_i,int end_i){
+    int a,b,f,mid;
+    mid=f=0;
+    a=st_i;
+    b=end_i;
+    if(l[st_i].toString().equals(element.toString())){
+      return st_i;
+    }
+    if(a>=b){
+      return 0;
+    }
+    mid =(a+b)/2;
+    a=bi_search(element,a,mid);
+    b=bi_search(element,mid+1,b);
+    f=a+b;
+    return f;
+  }
+
   
   int size(){
     return this.index;

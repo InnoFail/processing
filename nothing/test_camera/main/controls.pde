@@ -1,5 +1,22 @@
 //All the controlling functions of KeyBoard and mouse
 
+/*-----------------------------------------------------------------------------------------------------
+  Summary of functions and how to use them:
+  camera:
+  		variables:- 1) fore,side,up -> controlled by "wasdjk" keys helps to move forward , backward 
+  							, up and down with respect to camera vector(from eye to where to see)
+  						2) alpha,beta,gamma -> controlled by mouse-click and "wasdjk" keys to rotate 
+  							in x,y,z direction taking camera vector as x-axis
+  						3) eye,to_view,mediate -> stores eyeVector wrt origin of space,where to view vector 
+  							wrt origin of space and camera vector(ie vector pointing from eye to to_view) ,respectively
+  		functions:- 1)camera_setup() -> goes in setup() method of processing and sets up required value
+  							Note: the values of all variables can be changed exclusively
+  						2)camera_p() -> is the actual camera and should go under draw, no other camera should be used 
+  												in same PGraphics in which this camera is used
+  	keyboard :
+  		variables:- 
+  		
+ */
 
 String keyp,mousep,keyclp,spkey,spkeycl;
 final String keymf=new String("");
@@ -100,6 +117,8 @@ void camera_p(){
 
 //------------------------------
 
+
+
 void init_controls(){
      this.keyp=this.mousep=this.keyclp=this.spkey=this.spkeycl=new String();
  }
@@ -116,16 +135,34 @@ void controls_update(){
   }
   
 void keyPressed(){
-  
-  if(key==ENTER){
-    this.spkey="e";
-  }else if(key==BACKSPACE){
-   this.spkey="b"; 
-  }else if(key==SHIFT){
-    this.spkey="sh";
-  }else if(key==ALT){
-   this.spkey="alt"; 
-  }else{
+  if(key==CODED){
+     if(keyCode==SHIFT){
+      this.spkey="shift"; 
+    }else if(keyCode==ALT){
+     this.spkey="alt"; 
+   }else if(key==CONTROL){
+     this.spkey="ctrl"; 
+   }else if(keyCode==UP){
+      this.spkey="up";
+    }else if(keyCode==DOWN){
+      this.spkey="down";
+    }else if(keyCode==LEFT){
+      this.spkey="left";
+    }else if(keyCode==RIGHT){
+      this.spkey="right";
+    }
+  }else if(key==ENTER){
+    this.spkey="enter";
+   }else if(key==BACKSPACE){
+    this.spkey="backspace"; 
+   }else if(key==DELETE){
+     this.spkey="delete";
+   }else if(key==ESC){
+     this.spkey="esc";
+   }else if(keyCode==TAB){
+     this.spkey="tab";
+   }
+   else{
    this.keyp=Character.toString(key);
   }
   this.keyisp=true;
