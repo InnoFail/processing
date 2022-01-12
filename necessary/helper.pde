@@ -1,4 +1,3 @@
-import java.util.regex.*;
 
 
 class helper{
@@ -95,6 +94,12 @@ void update(ArrayList<ui> u){
   }
 }
   
+void update(ui u,String ui_class){
+    list<ui> ug = u.c_class(ui_class);
+    for(int i=0;i<ug.size();i++){
+    ug.get(i).update();
+  }
+}
 
 
 ui clicked(ArrayList<ui> v,boolean b){
@@ -114,92 +119,6 @@ ui clicked(ArrayList<ui> v,boolean b){
 
 boolean mClick(ui u){
   return u.collision(mouseX,mouseY);
-}
-
-
-String calculate(String exp){
-  ArrayList<String> ss=new ArrayList<String>();
-  Pattern p=Pattern.compile("[0-9]+|[^0-9]");
-  Matcher m=p.matcher(exp);
-  while(m.find()){
-    ss.add(exp.substring(m.start(),m.end()));
-  }
-  p=Pattern.compile("[^0-9]+");
-  m=p.matcher(exp);
-   while(m.find()){
-    if(m.end()-m.start()>1){
-      return "u r just a hell .... just correct ur statement";
-    }
-    
-    if(m.start()==0){
-      return "u r just a hell .... just correct ur statement";
-    }
-  }
-  
-  
-  for(int i=0;i<ss.size();i++){
-    int a=0,b=0,c=0;
-    float pp=0,pq=0;
-    switch(ss.get(i)){
-      
-      case "*":
-      a=i;
-      b=i-1;
-      c=i+1;
-      pp=Float.valueOf(ss.get(b));
-      pq=Float.valueOf(ss.get(c));
-      pp=pp*pq;
-      ss.set(b,String.valueOf(pp));
-      ss.remove(a);
-      ss.remove(a);
-      i=0;
-      break;
-      
-      case "/":
-      a=i;
-      b=i-1;
-      c=i+1;
-      pp=Float.valueOf(ss.get(b));
-      pq=Float.valueOf(ss.get(c));
-      pp=pp/pq;
-      ss.set(b,String.valueOf(pp));
-      ss.remove(a);
-      ss.remove(a);
-      i=0;
-      break;   
-      
-      case "+":
-      a=i;
-      b=i-1;
-      c=i+1;
-      pp=Float.valueOf(ss.get(b));
-      pq=Float.valueOf(ss.get(c));
-      pp=pp+pq;
-      ss.set(b,String.valueOf(pp));
-      ss.remove(a);
-      ss.remove(a);
-      i=0;
-      break;   
-      
-      case"-": 
-      a=i;
-      b=i-1;
-      c=i+1;
-      pp=Float.valueOf(ss.get(b));
-      pq=Float.valueOf(ss.get(c));
-      pp=pp-pq;
-      ss.set(b,String.valueOf(pp));
-      ss.remove(a);
-      ss.remove(a);
-      i=0;
-      break;   
-      
-    }
-  }
-  if(ss.size()!=0){
-  return ss.get(0);
-  }
-  return "";
 }
 
 }

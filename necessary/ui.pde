@@ -1,3 +1,83 @@
+class data_ui{
+ list<String> ui_id,ui_class,ui_hash;
+ list<ui> ui_object;
+ 
+  data_ui(){
+   this.ui_id = new list<String>();
+   this.ui_class = new list<String>();
+   this.ui_hash = new list<String>();
+   this.ui_object = new list<ui>();
+  }
+  
+  void add(ui u,String id,String ui_class){
+    this.ui_object.add(u);
+    this.ui_id.add(id);
+    this.ui_class.add(ui_class);
+    this.ui_hash.add(Integer.toString(u.hashCode()));
+    int p= this.ui_object.size();
+    int q=this.ui_id.size();
+    int r=this.ui_class.size();
+    int s=this.ui_hash.size();
+    if( p!=q || p!=r || p!=s || q!=r || q!=s || r!=s){
+      throw new java.lang.Error("list of ui,id,class or hash doesnot contain equal number of element.");
+    }
+  }
+  
+  ui get_object_by_hash(String hash){
+    for(int i=0;i<this.ui_hash.size();i++){
+      if(hash.equals(this.ui_hash.get(i))){
+       return this.ui_object.get(i); 
+      }
+    }
+    return null;
+  }
+  
+  ui get_object_by_id(String id){
+    for(int i=0;i<this.ui_id.size();i++){
+      if(id.equals(this.ui_id.get(i))){
+       return this.ui_object.get(i); 
+      }
+    }
+    return null;
+  }
+  
+  list<ui> get_object_by_class(String ui_class){
+    list<ui> p=new list<ui>();
+    for(int i=0;i<this.ui_class.size();i++){
+      if(ui_class.equals(this.ui_class.get(i))){
+       p.add(this.ui_object.get(i)); 
+      }
+    }
+    return p;
+  }
+  
+  String get_hash_by_object(ui u){
+    return Integer.toString(u.hashCode());
+  }
+  
+  String get_class_by_hash(String hash){
+    for(int i=0;i<this.ui_hash.size();i++){
+      if(hash.equals(this.ui_hash.get(i))){
+       return this.ui_class.get(i); 
+      }
+    }
+    return null;
+  }
+  
+  String get_id_by_hash(String hash){
+    for(int i=0;i<this.ui_hash.size();i++){
+      if(hash.equals(this.ui_hash.get(i))){
+       return this.ui_id.get(i); 
+      }
+    }
+    return null;
+  }
+
+}
+
+
+
+
 class ui{
   ArrayList<Float> child;
   ArrayList<ui> child_;
@@ -14,12 +94,15 @@ class ui{
   float extraX,extraY,text_h;
   String default_text;
   edit e;
+  data_ui du;
    
    
    /*
    All Functions and constructors are:-
    -> ui(boolean vert)
    -> ui(boolean vert,float x,float y,float w,float h)
+   -> ui(boolean vert,String[] id_class)
+   -> ui(boolean vert,float x,float y,float w,float h,String[] id_class)
    -> private void pos(float x,float y)
    -> void update_child()
    -> private void lay_weight(float weight)
@@ -45,8 +128,10 @@ class ui{
    ->boolean anim(float time,float del)
    -> void write(String s,int[] pro,float x,float y)
    -> void write(String s,int[] pro,float x,float y,float w,float h)
-   ->ui add_in_(float weight,boolean vert)
-   ->ui c(int i) , for color*/
+   ->ui add_in_(float weight,boolean vert) //add a new child
+   ->ui c() returns reference to child
+   ->ui add_in_(float weight,boolean vert,String id)
+   ->ui add_in_(float weight,boolean vert,String[] id_class)
    
   /* 
       This class has two constructors.
@@ -67,6 +152,8 @@ class ui{
     this.ch=new char[1000];
     this.default_text=new String();
     this.e=new edit();
+    this.du = new data_ui();
+    this.du.add(this,"","");
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -94,6 +181,57 @@ class ui{
     this.ch=new char[1000];
     this.default_text=new String();
     this.e=new edit();
+    this.du = new data_ui();
+    this.du.add(this,"","");
+    for(int i=0;i<ch.length;i++){
+      ch[i]=" ".charAt(0);
+    }
+    this.i_char=new IntDict();
+    this.extraX=this.extraY=0;
+  }
+  
+  
+   ui(boolean vert,String id,String ui_class){
+    this.child=new ArrayList<Float>();
+    this.child_=new ArrayList<ui>();
+    this.xPos=0;
+    this.yPos=0;
+    this.w=width;
+    this.h=height;
+    this.c1=color(0,0,0,1);
+    this.weight=1;
+    this.vert=vert;
+    this.text_h=15;
+    this.parent=this;
+    this.ch=new char[1000];
+    this.default_text=new String();
+    this.e=new edit();
+    this.du = new data_ui();
+    this.du.add(this,id,ui_class);
+    for(int i=0;i<ch.length;i++){
+      ch[i]=" ".charAt(0);
+    }
+    this.i_char=new IntDict();
+    this.extraX=this.extraY=0;
+  }
+  
+   ui(boolean vert,float x,float y,float w,float h,String id,String ui_class){
+    this.child=new ArrayList<Float>();
+    this.child_=new ArrayList<ui>();
+    this.xPos=x;
+    this.yPos=y;
+    this.w=w;
+    this.h=h;
+    this.c1=color(0,0,0,1);
+    this.weight=1;
+    this.vert=vert;
+    this.text_h=15;
+    this.parent=this;
+    this.ch=new char[1000];
+    this.default_text=new String();
+    this.e=new edit();
+    this.du = new data_ui();
+    this.du.add(this,id,ui_class);
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -480,7 +618,30 @@ ui c(int i){
   }
   return this.child_.get(i);
 }
-  
+
+ui add_in_(float weight,boolean vert,String id){
+  this.copy_(weight,vert);
+  ui p = this.c(this.child.size()-1);
+  du.add(p,id,"");
+  return p;
+}
+
+
+ui add_in_(float weight,boolean vert,String id,String ui_class){
+  this.copy_(weight,vert);
+  ui p = this.c(this.child.size()-1);
+  du.add(p,id,ui_class);
+  return p;
+}
+
+ui c_id(String id){
+ return this.du.get_object_by_id(id);
+}
+
+list<ui> c_class(String ui_class){
+ return this.du.get_object_by_class(ui_class); 
+}
+
 }
 
 
