@@ -12,10 +12,7 @@ function ui(ui_parent){
   this.angle = 0; // in degrees
   this.mx = 0;
   this.my = null;
-  this.delx = 0;
-  this.dely = 0;
-  this.delw = 0;
-  this.delh = 0;
+  this.inp = null;
   
   this.setup = function(size){
     if(this.p == null){
@@ -30,10 +27,10 @@ function ui(ui_parent){
   }
   
   this.snap = function(){
-    this.x = this.p.x + this.p.width * this.snaps[0]/this.p.n_row + this.delx;
-    this.y = this.p.y + this.p.height * this.snaps[1]/this.p.n_col + this.dely;
-    this.width = this.p.width * (this.snaps[2]-this.snaps[0])/this.p.n_row + this.delw;
-    this.height = this.p.height * (this.snaps[3]-this.snaps[1])/this.p.n_col +this.delh;
+    this.x = this.p.x + this.p.width * this.snaps[0]/this.p.n_row;
+    this.y = this.p.y + this.p.height * this.snaps[1]/this.p.n_col;
+    this.width = this.p.width * (this.snaps[2]-this.snaps[0])/this.p.n_row;
+    this.height = this.p.height * (this.snaps[3]-this.snaps[1])/this.p.n_col;
     return this;
   }
     
@@ -115,7 +112,12 @@ function ui(ui_parent){
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
       translate(-this.x,-this.y);
-      rect(this.x+this.delx,this.y+this.dely,this.width+this.delw,this.height+this.delh);
+      if(this.inp != null){
+        this.inp.position(this.x,this.y);
+        this.inp.size(this.width,this.height);
+        this.inp.style("transform","rotate("+this.angle+"deg)");
+      }
+      rect(this.x,this.y,this.width,this.height);
       pop();
     }else{
       push();
@@ -125,16 +127,21 @@ function ui(ui_parent){
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
       translate(-this.x,-this.y);
+      if(this.inp != null){
+        this.inp.position(this.x,this.y);
+        this.inp.size(this.width,this.height);
+        this.inp.style("transform","rotate("+this.angle+"deg)");
+      }
       rect(this.x,this.y,this.width,this.height);
       pop();
     }
   }
   
   this.repos = function(delx,dely,delw,delh){
-      this.delx += delx;
-      this.dely += dely;
-      this.delw += delw;
-      this.delh += delh;
+      this.x += delx;
+      this.y += dely;
+      this.w += delw;
+      this.h += delh;
   }
   
   
@@ -223,7 +230,21 @@ function ui(ui_parent){
     }
   }
   
-  this.nothing = function(){}
+  this.nothing = function(){
+    
+  }
+  
+  this.createInp = function(event){
+    this.inp = createElement("textarea");
+    this.inp.position(this.x,this.y);
+    this.inp.style("padding","0");
+    this.inp.style("border","0");
+    this.inp.style("resize","none");
+    this.inp.size(this.width,this.height);
+    this.inp.style("transform-origin","0 0");
+    this.inp.input(event);
+    return this;
+  }
   
   
 }
