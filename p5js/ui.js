@@ -9,6 +9,13 @@ function ui(ui_parent){
   this.color = 0;
   this.snaps = [0,0,1,1];
   this.p = ui_parent;
+  this.wrap = 1;
+  this.fontSize = 14;
+  this.align = [0,0]; //first arg 0->left ,1->center ,2->right ; second arg 0->top ,1->bottom ,2->baseline ,3->center
+  this.lineh = 14;
+  this.txtStyle = 0; // 0->normal,1->italic,2->bold,3->boldItalic
+  
+  // angle , mx and my is depreceted
   this.angle = 0; // in degrees
   this.mx = 0;
   this.my = null;
@@ -80,6 +87,7 @@ function ui(ui_parent){
     return this;
   }
   
+  //use of set_angle is depreceted
   this.set_angle = function(angle){
     this.angle = angle;
     if(this.angle >= 360){
@@ -102,7 +110,21 @@ function ui(ui_parent){
     return [c1,c3,c4,c2];
   }
   
+  this.set_align = function(a,b){
+    this.align = [a,b];
+  }
   
+  this.set_line_height = function(a){
+    this.lineh = a;
+  }
+  
+  this.get_line_height = function(){
+    return this.lineh;
+  }
+  
+  this.set_text_style = function(a){
+    this.txtStyle = a;
+  }
   
   this.draw = function(){
     if(this.p == null){
@@ -112,11 +134,15 @@ function ui(ui_parent){
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
       translate(-this.x,-this.y);
+      
+      
       if(this.inp != null){
         this.inp.position(this.x,this.y);
         this.inp.size(this.width,this.height);
         this.inp.style("transform","rotate("+this.angle+"deg)");
       }
+      
+      
       rect(this.x,this.y,this.width,this.height);
       pop();
     }else{
@@ -127,11 +153,15 @@ function ui(ui_parent){
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
       translate(-this.x,-this.y);
+      
+      
       if(this.inp != null){
         this.inp.position(this.x,this.y);
         this.inp.size(this.width,this.height);
         this.inp.style("transform","rotate("+this.angle+"deg)");
       }
+      
+      
       rect(this.x,this.y,this.width,this.height);
       pop();
     }
@@ -145,7 +175,7 @@ function ui(ui_parent){
   }
   
   
-  //point inside
+  //use of point inside is depreceted
   this.point_in = function(x,y){
     
       
@@ -202,6 +232,28 @@ function ui(ui_parent){
   
   }
   
+  this.point_inside = function(x,y){
+        
+  if(this.angle == 0){
+    if((this.x - x)*(this.x+this.width - x) < 0 && (this.y - y)*(this.y+this.height - y) < 0){
+      return true;
+  }else{return false;}
+  }else if(this.angle == 90){
+    if((this.x + x)*(this.x-this.width + x) < 0 && (this.y - y)*(this.y+this.height - y) < 0){
+      return true;
+  }else{return false;}
+  }else if(this.angle == 180){
+    if((this.x + x)*(this.x-this.width + x) < 0 && (this.y + y)*(this.y-this.height + y) < 0){
+      return true;
+  }else{return false;}
+  }else if(this.angle == 270){
+    if((this.x + x)*(this.x-this.width + x) < 0 && (this.y + y)*(this.y-this.height + y) < 0){
+      return true;
+  }else{return false;}
+  }
+    
+  }
+  
   
   //inside
   this.hasinside = function(ui){
@@ -220,7 +272,7 @@ function ui(ui_parent){
     if(already == null){
       p11 = ui.collision(this,true);
     }
-    if(this.point_in(a1,a2) || this.point_in(b1,b2) || this.point_in(c1,c2) || this.point_in(d1,d2)){
+    if(this.point_inside(a1,a2) || this.point_inside(b1,b2) || this.point_inside(c1,c2) || this.point_inside(d1,d2)){
       p22 = true;
     }
     if(p11 || p22){
@@ -234,6 +286,59 @@ function ui(ui_parent){
     
   }
   
+  this.edit = function(str){
+    textSize(this.fontSize);
+    if(this.wrap == 0){
+    textWrap(WORD);
+    }else if(this.wrap == 1){
+      textWrap(CHAR);
+    }
+    if(this.align[0] == 0){
+      if(this.align[1] == 0){
+        textAlign(LEFT,TOP);
+      }else if(this.align[1] == 1){
+        textAlign(LEFT,BOTTOM);
+      }else if(this.align[1] == 2){
+        textAlign(LEFT,BASELINE);
+      }else if(this.align[1] == 3){
+        textAlign(LEFT,CENTER);
+      }
+    }else if(this.align[0] == 1){
+      if(this.align[1] == 0){
+        textAlign(CENTER,TOP);
+      }else if(this.align[1] == 1){
+        textAlign(CENTER,BOTTOM);
+      }else if(this.align[1] == 2){
+        textAlign(CENTER,BASELINE);
+      }else if(this.align[1] == 3){
+        textAlign(CENTER,CENTER);
+      }
+    }else if(this.align[0] == 2){
+      if(this.align[1] == 0){
+        textAlign(RIGHT,TOP);
+      }else if(this.align[1] == 1){
+        textAlign(RIGHT,BOTTOM);
+      }else if(this.align[1] == 2){
+        textAlign(RIGHT,BASELINE);
+      }else if(this.align[1] == 3){
+        textAlign(RIGHT,CENTER);
+      }
+    }
+    textLeading(this.lineh);
+    if(this.txtStyle == 0){
+      textStyle(NORMAL);
+    }else if(this.txtStyle == 1){
+      textStyle(ITALIC);
+    }else if(this.txtStyle == 2){
+      textStyle(BOLD);
+    }else if(this.txtStyle == 3){
+      textStyle(BOLDITALIC);
+    }
+    text(str,this.x,this.y,this.width);
+  }
+  
+  
+  //use of createInp is depreceted
   this.createInp = function(event){
     this.inp = createElement("textarea");
     this.inp.position(this.x,this.y);
