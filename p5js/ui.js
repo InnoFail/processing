@@ -1,5 +1,7 @@
 
 function ui(ui_parent){
+  this.canvas = createGraphics(width,height);
+  this.clipped = false;
   this.x = 0;
   this.y = 0;
   this.width = width;
@@ -11,6 +13,8 @@ function ui(ui_parent){
   this.p = ui_parent;
   this.wrap = 1;
   this.fontSize = 14;
+  this.txtCol = 0;
+  this.str = '';
   this.align = [0,0]; //first arg 0->left ,1->center ,2->right ; second arg 0->top ,1->bottom ,2->baseline ,3->center
   this.lineh = 14;
   this.txtStyle = 0; // 0->normal,1->italic,2->bold,3->boldItalic
@@ -87,6 +91,10 @@ function ui(ui_parent){
     return this;
   }
   
+  this.set_str = function(str){
+    this.str = str;
+  }
+  
   //use of set_angle is depreceted
   this.set_angle = function(angle){
     this.angle = angle;
@@ -125,9 +133,18 @@ function ui(ui_parent){
   this.set_text_style = function(a){
     this.txtStyle = a;
   }
+  this.set_text_color = function(a){
+    this.txtCol = a;
+  }
+  
+  this.set_clip = function(a){
+    this.clipped = a;
+  }
   
   this.draw = function(){
+    //if(this.clipped == false){
     if(this.p == null){
+      
       push();
       noStroke();
       fill(this.color);
@@ -144,7 +161,9 @@ function ui(ui_parent){
       
       
       rect(this.x,this.y,this.width,this.height);
+      
       pop();
+      this.edit(this.str);
     }else{
       push();
       this.snap();
@@ -164,7 +183,62 @@ function ui(ui_parent){
       
       rect(this.x,this.y,this.width,this.height);
       pop();
+      this.edit(this.str);
+      
     }
+    // }
+    
+    /*else{
+      if(this.p == null){
+      
+      this.canvas.background(this.color);
+      this.canvas.push();
+      this.canvas.noStroke();
+      this.canvas.fill(this.color);
+      this.canvas.translate(this.x,this.y);
+      this.canvas.rotate(this.angle * PI/180);
+      this.canvas.translate(-this.x,-this.y);
+      
+      
+      if(this.inp != null){
+        this.inp.position(this.x,this.y);
+        this.inp.size(this.width,this.height);
+        this.inp.style("transform","rotate("+this.angle+"deg)");
+      }
+      
+      
+      this.canvas.rect(this.x,this.y,this.width,this.height);
+      
+      this.canvas.pop();
+      this.edit(this.str);
+      let capture = this.canvas.get(this.x,this.y,this.width,this.height);
+      image(capture,this.x,this.y);
+    }else{
+      
+      this.canvas.background(this.color);
+      this.canvas.push();
+      this.snap();
+      this.canvas.noStroke();
+      this.canvas.fill(this.color);
+      this.canvas.translate(this.x,this.y);
+      this.canvas.rotate(this.angle * PI/180);
+      this.canvas.translate(-this.x,-this.y);
+      
+      
+      if(this.inp != null){
+        this.inp.position(this.x,this.y);
+        this.inp.size(this.width,this.height);
+        this.inp.style("transform","rotate("+this.angle+"deg)");
+      }
+      
+      
+      this.canvas.rect(this.x,this.y,this.width,this.height);
+      this.canvas.pop();
+      this.edit(this.str);
+      let capture = this.canvas.get(this.x,this.y,this.width,this.height);
+      image(capture,this.x,this.y);
+    }
+    }*/
   }
   
   this.repos = function(delx,dely,delw,delh){
@@ -287,6 +361,11 @@ function ui(ui_parent){
   }
   
   this.edit = function(str){
+    if(this.clipped == false){
+    if(str == ""){
+      return;
+    }
+    fill(this.txtCol);
     textSize(this.fontSize);
     if(this.wrap == 0){
     textWrap(WORD);
@@ -335,6 +414,65 @@ function ui(ui_parent){
       textStyle(BOLDITALIC);
     }
     text(str,this.x,this.y,this.width);
+    }else{
+      
+      
+      if(str == ""){
+      return;
+    }
+    this.canvas.background(this.color);
+    this.canvas.fill(this.txtCol);
+    this.canvas.textSize(this.fontSize);
+    if(this.wrap == 0){
+    this.canvas.textWrap(WORD);
+    }else if(this.wrap == 1){
+      this.canvas.textWrap(CHAR);
+    }
+    if(this.align[0] == 0){
+      if(this.align[1] == 0){
+        this.canvas.textAlign(LEFT,TOP);
+      }else if(this.align[1] == 1){
+        this.canvas.textAlign(LEFT,BOTTOM);
+      }else if(this.align[1] == 2){
+        this.canvas.textAlign(LEFT,BASELINE);
+      }else if(this.align[1] == 3){
+        this.canvas.textAlign(LEFT,CENTER);
+      }
+    }else if(this.align[0] == 1){
+      if(this.align[1] == 0){
+        this.canvas.textAlign(CENTER,TOP);
+      }else if(this.align[1] == 1){
+        this.canvas.textAlign(CENTER,BOTTOM);
+      }else if(this.align[1] == 2){
+        this.canvas.textAlign(CENTER,BASELINE);
+      }else if(this.align[1] == 3){
+        this.canvas.textAlign(CENTER,CENTER);
+      }
+    }else if(this.align[0] == 2){
+      if(this.align[1] == 0){
+        this.canvas.textAlign(RIGHT,TOP);
+      }else if(this.align[1] == 1){
+        this.canvas.textAlign(RIGHT,BOTTOM);
+      }else if(this.align[1] == 2){
+        this.canvas.textAlign(RIGHT,BASELINE);
+      }else if(this.align[1] == 3){
+        this.canvas.textAlign(RIGHT,CENTER);
+      }
+    }
+    this.canvas.textLeading(this.lineh);
+    if(this.txtStyle == 0){
+      this.canvas.textStyle(NORMAL);
+    }else if(this.txtStyle == 1){
+      this.canvas.textStyle(ITALIC);
+    }else if(this.txtStyle == 2){
+      this.canvas.textStyle(BOLD);
+    }else if(this.txtStyle == 3){
+      this.canvas.textStyle(BOLDITALIC);
+    }
+    this.canvas.text(str,this.x,this.y,this.width);
+    }
+    let capture = this.canvas.get(this.x,this.y,this.width,this.height);
+    image(capture,this.x,this.y);
   }
   
   
