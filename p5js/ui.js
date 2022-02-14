@@ -94,6 +94,16 @@ function ui(ui_parent){
     return this;
   }
   
+  this.del_snap_px = function(a1,b1,a2,b2,stric){
+    if(this.p != null && this.p.width > 0 && this.p.height > 0){
+      let px = a1/this.p.width*this.p.n_row;
+      let py = b1/this.p.height*this.p.n_col;
+      let qx = a2/this.p.width*this.p.n_row;
+      let qy = b2/this.p.height*this.p.n_col;
+      this.del_snap(px,py,qx,qy,stric);
+    }
+  }
+  
   this.set_str = function(str){
     this.str = str;
   }
