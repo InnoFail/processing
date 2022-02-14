@@ -419,14 +419,15 @@ function ui(ui_parent){
     }else if(this.txtStyle == 3){
       this.canvas.textStyle(BOLDITALIC);
     }
+    this.canvas.text(str,0,0,this.width);
+    }
+    let capture = this.canvas.get(0,0,this.width,this.height);
+    
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
-    this.canvas.text(str,0,0,this.width);
+    image(capture,0,0);
     translate(-this.x,-this.y);
     rotate(-this.angle*PI/180);
-    }
-    let capture = this.canvas.get(this.x,this.y,this.width,this.height);
-    image(capture,this.x,this.y);
   }
   
   
