@@ -425,7 +425,7 @@ function ui(ui_parent){
     this.canvas.text(str,0,0,this.width);
     }
     let capture = this.canvas.get(0,0,this.width,this.height);
-    if(capture.height > 0 && capture.width > 0){
+    if(capture.height > 0.2 && capture.width > 0.2){
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
     image(capture,0,0);
