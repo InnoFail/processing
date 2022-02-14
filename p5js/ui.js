@@ -1,5 +1,9 @@
 let last_hover = null;
 
+function free_hover(){
+  last_hover = null;
+}
+
 function ui(ui_parent){
   this.canvas = createGraphics(width,height);
   this.clipped = false;
@@ -95,7 +99,7 @@ function ui(ui_parent){
   }
   
   this.del_snap_px = function(a1,b1,a2,b2,stric){
-    if(this.p != null && this.p.width > 0 && this.p.height > 0){
+    if(this.p != null && this.p.width > 1 && this.p.height > 1){
       let px = a1/this.p.width*this.p.n_row;
       let py = b1/this.p.height*this.p.n_col;
       let qx = a2/this.p.width*this.p.n_row;
@@ -208,7 +212,6 @@ function ui(ui_parent){
   }
   
   
-  //use of point inside is depreceted
   this.point_in = function(x,y){
     
       
@@ -305,7 +308,7 @@ function ui(ui_parent){
     if(already == null){
       p11 = ui.collision(this,true);
     }
-    if(this.point_inside(a1,a2) || this.point_inside(b1,b2) || this.point_inside(c1,c2) || this.point_inside(d1,d2)){
+    if(this.point_inside(a1,a2) || this.point_in(b1,b2) || this.point_in(c1,c2) || this.point_in(d1,d2)){
       p22 = true;
     }
     if(p11 || p22){
