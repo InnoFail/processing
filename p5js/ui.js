@@ -1,3 +1,4 @@
+let last_hover = null;
 
 function ui(ui_parent){
   this.canvas = createGraphics(width,height);
@@ -24,6 +25,8 @@ function ui(ui_parent){
   this.mx = 0;
   this.my = null;
   this.inp = null;
+  //for determining click
+  this.last_clicked = false;
   
   this.setup = function(size){
     if(this.p == null){
@@ -444,5 +447,23 @@ function ui(ui_parent){
     return this;
   }
   
+  //hover and click
+  this.hovered = function(){
+    if(this.point_in(mouseX,mouseY) && (last_hover == null || last_hover == this)){
+      last_hover = this;
+    }else if(last_hover == null || last_hover == this){
+      last_hover = null;
+    }
+  }
+  
+  this.clicked = function(){
+    this.hovered(mouseX,mouseY);
+    if(mouseIsPressed && this.point_in(mouseX,mouseY) && last_hover == this){
+      this.last_clicked = true;
+    }else{
+      this.last_clicked = false;
+    }
+    return this.last_clicked;
+  }
   
 }
