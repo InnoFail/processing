@@ -142,7 +142,6 @@ function ui(ui_parent){
   }
   
   this.draw = function(){
-    //if(this.clipped == false){
     if(this.p == null){
       
       push();
@@ -186,59 +185,6 @@ function ui(ui_parent){
       this.edit(this.str);
       
     }
-    // }
-    
-    /*else{
-      if(this.p == null){
-      
-      this.canvas.background(this.color);
-      this.canvas.push();
-      this.canvas.noStroke();
-      this.canvas.fill(this.color);
-      this.canvas.translate(this.x,this.y);
-      this.canvas.rotate(this.angle * PI/180);
-      this.canvas.translate(-this.x,-this.y);
-      
-      
-      if(this.inp != null){
-        this.inp.position(this.x,this.y);
-        this.inp.size(this.width,this.height);
-        this.inp.style("transform","rotate("+this.angle+"deg)");
-      }
-      
-      
-      this.canvas.rect(this.x,this.y,this.width,this.height);
-      
-      this.canvas.pop();
-      this.edit(this.str);
-      let capture = this.canvas.get(this.x,this.y,this.width,this.height);
-      image(capture,this.x,this.y);
-    }else{
-      
-      this.canvas.background(this.color);
-      this.canvas.push();
-      this.snap();
-      this.canvas.noStroke();
-      this.canvas.fill(this.color);
-      this.canvas.translate(this.x,this.y);
-      this.canvas.rotate(this.angle * PI/180);
-      this.canvas.translate(-this.x,-this.y);
-      
-      
-      if(this.inp != null){
-        this.inp.position(this.x,this.y);
-        this.inp.size(this.width,this.height);
-        this.inp.style("transform","rotate("+this.angle+"deg)");
-      }
-      
-      
-      this.canvas.rect(this.x,this.y,this.width,this.height);
-      this.canvas.pop();
-      this.edit(this.str);
-      let capture = this.canvas.get(this.x,this.y,this.width,this.height);
-      image(capture,this.x,this.y);
-    }
-    }*/
   }
   
   this.repos = function(delx,dely,delw,delh){
@@ -413,7 +359,11 @@ function ui(ui_parent){
     }else if(this.txtStyle == 3){
       textStyle(BOLDITALIC);
     }
-    text(str,this.x,this.y,this.width);
+    translate(this.x,this.y);
+    rotate(this.angle*PI/180);
+    text(str,0,0,this.width);
+    translate(-this.x,-this.y);
+    rotate(-this.angle*PI/180);
     }else{
       
       
@@ -469,7 +419,11 @@ function ui(ui_parent){
     }else if(this.txtStyle == 3){
       this.canvas.textStyle(BOLDITALIC);
     }
-    this.canvas.text(str,this.x,this.y,this.width);
+    translate(this.x,this.y);
+    rotate(this.angle*PI/180);
+    this.canvas.text(str,0,0,this.width);
+    translate(-this.x,-this.y);
+    rotate(-this.angle*PI/180);
     }
     let capture = this.canvas.get(this.x,this.y,this.width,this.height);
     image(capture,this.x,this.y);
