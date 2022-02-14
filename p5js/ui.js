@@ -449,11 +449,16 @@ function ui(ui_parent){
   
   //hover and click
   this.hovered = function(){
-    if(this.point_in(mouseX,mouseY) && (last_hover == null || last_hover == this)){
+    if(this.point_in(mouseX,mouseY) && (last_hover == null || last_hover == this || this.p!=null && this.p.hovered())){
       last_hover = this;
-    }else if(last_hover == null || last_hover == this){
+    }
+    else if(last_hover == null || last_hover == this){
       last_hover = null;
     }
+    if(last_hover == this){
+      return true;
+    }
+    return false;
   }
   
   this.clicked = function(){
