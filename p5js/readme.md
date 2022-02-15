@@ -16,6 +16,7 @@ Just for texting collapsable in github
  - Getter functions
    * public getter functions
    * private getter functions
+   * using variables to get values
    * functions that returns this object
  - Other functions
     * all other functions are private and are deprected to be used driectly in the code 
@@ -271,6 +272,40 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
+- set_wrap(wrap)
+---> wrap:  0-> word , 1-> letters
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_wrap(0);//italic
+}
+function draw(){
+	v.set_str("Menu");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
+- set_font_size(size)
+---> size in pixel
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_size(25);//italic
+}
+function draw(){
+	v.set_str("Menu");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_text_style(style)
 ---> style: 0->normal,1->italic,2->bold,3->boldItalic
 ```javascript
@@ -439,6 +474,24 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
+- set_scroll(x,y)
+---> x,y is in pixel, and this function is to scroll text content inside ui
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_clip(true);
+	v.set_scroll(30,40);
+}
+function draw(){
+	v.set_str("Wow this is lamang and I am very hostile to see you here , how will you like to play football with me.");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 ----------------------------------------------------------------
 ### ***Getters***
 #### private getters
@@ -446,10 +499,19 @@ function draw(){
 : There are no private getter functions
 #### public getters
 - x_to_weight(a)
+---> a is in pixel, is converted on the basis of parent ui width
+`let x = u.x_to_weight(5);`
 - y_to_weight(a)
+---> a is in pixel, is converted on the basis of parent ui height
+`let y = u.y_to_weight(5);`
 - weight_to_x(a)
+---> a is in weight value form 0 to1 or can be greater than 1 representing greater value than parent width, is converted on the basis of parent ui width
+`let x = u.weight_to_x(5);`
 - weight_to_y(a)
+---> a is in weight value form 0 to1 or can be greater than 1 representing greater value than parent width, is converted on the basis of parent ui height
+`let y = u.weight_to_y(5);`
 -  coord()
+`let coordinates = u.coord();`
 - hovered()
 - clicked()
 - point_in(x,y)
@@ -457,6 +519,28 @@ function draw(){
 - hasinside(ui)
 - collision(ui)
 - get_line_height()
+`let h = u.get_line_height()`
+#### using variables to get values
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_clip(true);
+	v.set_scroll(30,40);
+}
+function draw(){
+	v.set_str("Wow this is lamang and I am very hostile to see you here , how will you like to play football with me.");
+	let v_position_width = v.width;
+	let v_position_height = v.height;
+	console.log("width of v",v_position_width );
+	console.log("height of v",v_position_height );
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 #### functions that return this object
 - __Note: All setter functions return this.__
 -------------------------------------------------------------
@@ -464,6 +548,7 @@ function draw(){
 #### public functions
 - copy()
 - draw()
+- createInp() **-->Has been deprecated<--**
  **Note**
 	---> Every ui are rendered in the order they are placed in draw call in p5.
 - nothing()
@@ -474,36 +559,37 @@ The variables inside ui.js are not to be modified directly in user code , only g
 But reading them is fine.
 | SN |    variables   |    default_value   | getters and setters |
 |----|---------------|-----------------|----------|
-|1| canvas| createGraphics(width,height)| |
-|2| clipped| false| |
-|3| x| 0| |
-|4| y| 0| |
-|5| width| width| |
-|6| height| height| |
-|7| tl_radius| 0| |
-|8| tr_radius| 0| |
-|9| bl_radius| 0| |
-|10| br_radius| 0| |
-|11| n_row| 1| |
-|12| n_col| 1| |
-|13| color| 0| |
-|14| stroke_color|  color(0,0,0,0)| |
-|15| snaps| [0,0,1,1]| |
-|16| wrap| 1| |
-|17| fontSize| 14| |
-|18| txtCol| 0| |
-|19| str| ""| |
-|20| align| [0,0]| |
-|21| lineh| 14| |
-|22| txtStyle| 0| |
-|23| angle| 0| |
-|24| mx| 0| |
-|25| my| null| |
-|26| last_clicked| false| |
-|27| p| ui_parent| |
-|28| inp| null| |
-|29| scrollx| 0| |
-|30| scrolly| 0| |
+|1| canvas| createGraphics(width,height)| none |
+|2| clipped| false| set_clip() |
+|3| x| 0| snap(),del_snap(),del_snap_px()|
+|4| y| 0| snap(),del_snap(),del_snap_px()|
+|5| width| width| snap(),del_snap(),del_snap_px()|
+|6| height| height| snap(),del_snap(),del_snap_px()|
+|7| tl_radius| 0| set_radius(),set_radius_i(),set_radius_px(),set_radius_i_px()|
+|8| tr_radius| 0| set_radius(),set_radius_i(),set_radius_px(),set_radius_i_px()|
+|9| bl_radius| 0| set_radius(),set_radius_i(),set_radius_px(),set_radius_i_px()|
+|10| br_radius| 0| set_radius(),set_radius_i(),set_radius_px(),set_radius_i_px()|
+|11| n_row| 1| grid(),copy()|
+|12| n_col| 1| grid(),copy()|
+|13| color| 0| set_color(),c()|
+|14| stroke_color|  color(0,0,0,0)| set_stroke_color(),sc()|
+|15| snaps| [0,0,1,1]| set_snap()|
+|16| wrap| 1| set_wrap()|
+|17| fontSize| 14| set_font_size()|
+|18| txtCol| 0| set_text_color()|
+|19| str| ""| set_str()|
+|20| align| [0,0]| set_align()|
+|21| lineh| 14| set_line_height()|
+|22| txtStyle| 0| set_text_style()|
+|23| angle| 0| set_angle()|
+|24| mx| 0| point_in()|
+|25| my| null| point_in()|
+|26| last_clicked| false| clicked()|
+|27| p| ui_parent| copy()|
+|28| inp| null| createInp()|
+|29| scrollx| 0| set_scroll()|
+|30| scrolly| 0| set_scroll()|
+|31| last_hovered| null| hovered()|
 
 ---------------------------------------------------------------------
 ### Examples
@@ -559,6 +645,8 @@ But reading them is fine.
 |43| weight_to_x(a)| returns the pixel value of a(in weight) with respect to width of parent|
 |44| weight_to_y(a)| returns the pixel value of a(in weight) with respect to height of parent|
 |45| set_scroll(a,b)| sets scrollx and scrolly for text scrolling|
+|46| set_wrap(a)| sets wrap|
+|47| set_font_size(a)| sets font size|
 
 -----------------------------------------------------------
 
