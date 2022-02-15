@@ -116,18 +116,239 @@ function draw(){
 }
 ```
 - del_snap(delx1,dely1,delx2,dely2,stric)
+---> delx1,dely1,delx2,dely2 affect the top-left and bottom-right corner of grid coordinate and values are in weight and stric can be ether true or false to determine if ui should be restricted to grow within parents.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+}
+function draw(){
+	if(v.clicked()){
+	v.del_snap(0,(mouseX-pmouseX)/60,0,0,true);//mouseX and pmouseX are variables in p5
+	}
+	u.set_str("Hello world");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - del_snap_px(delx1,dely1,delx2,dely2,stric)
+---> delx1,dely1,delx2,dely2 affect the top-left and bottom-right corner of grid coordinate and values are in pixel and stric can be ether true or false to determine if ui should be restricted to grow within parents.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+}
+function draw(){
+	if(v.clicked()){
+	v.del_snap_px(0,(mouseX-pmouseX),0,0,true);//mouseX and pmouseX are variables in p5
+	}
+	u.set_str("Hello world");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 -  set_str(text)
+---> text is text to be displayed
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+}
+function draw(){
+	u.set_str("Hello world");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 -  set_angle(angle)
+---> angle is in degrees and is clockwise
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_angle(30);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_clip(clipped)
+---> This is only for text content. By default clipped = false.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_clip(true);
+}
+function draw(){
+	v.set_str("Wow this is lamang and I am very hostile to see you here , how will you like to play football with me.");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - repos(delx,dely,delw,delh)
+---> sets a change in top-left position and on size of ui
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.repos(50,50,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_align(a,b)
+---> first arg: 0->left ,1->center ,2->right 
+---> second arg: 0->top ,1->bottom ,2->baseline ,3->center
+__Note : The align property is for single line over the width only , and for line height only.__
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_align(1,0);
+}
+function draw(){
+	v.set_str("Menu");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_line_height(height)
+--->height is in px
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_line_height(50);
+}
+function draw(){
+	v.set_str("Menu");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_text_color(color)
+---> color() function of p5 is accepted by this function as argument.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_text_color(color(255,0,0));
+}
+function draw(){
+	v.set_str("Menu");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_text_style(style)
+---> style: 0->normal,1->italic,2->bold,3->boldItalic
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	v.set_text_style(1);//italic
+}
+function draw(){
+	v.set_str("Menu");
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - free_hover()
+---> frees the last_hover variable. It is necessary when different parents come across each other while hovering
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	let col = color(255,0,0);
+	u = new ui().setup([100,100]).grid(5,5).set_color(col);
+	v = new ui().setup([150,150,100,100).c(255,255,0).sc(0,0,0);
+}
+function draw(){
+
+	free_hover();
+	if(v.hovered()){
+	v.c(0,0,255);
+	}else{
+	v.c(255,255,0);
+	}
+	free_hover();
+	if(u.hovered()){
+	u.c(0,255,0);
+	}else{
+	u.c(255,0,0);
+	}
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_stroke_color(color)
+---> color() is p5 function and parameter color accepts its value
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	let col = color(255,0,0);
+	u = new ui().setup([100,100]).grid(5,5).set_color(col);
+	v = u.copy().c(255,0,0).set_stroke_color(color(0,0,0));
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_color(color)
+---> color() is p5 function and parameter color accepts its value
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	let col = color(255,0,0);
+	u = new ui().setup([100,100]).grid(5,5).set_color(col);
+	v = u.copy().c(255,0,0).sc(0,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - sc(r ,g ,b)
 ---> r , g and b are red , green and blue respectively ranging from 0 to 255.
 ```javascript
@@ -237,6 +458,7 @@ function draw(){
 - collision(ui)
 - get_line_height()
 #### functions that return this object
+- __Note: All setter functions return this.__
 -------------------------------------------------------------
 ### ***Others***
 #### public functions
@@ -339,6 +561,7 @@ But reading them is fine.
 |45| set_scroll(a,b)| sets scrollx and scrolly for text scrolling|
 
 -----------------------------------------------------------
+
 
 
 
