@@ -25,6 +25,8 @@ function ui(ui_parent){
   this.fontSize = 14;
   this.txtCol = 0;
   this.str = '';
+  this.scrollx = 0;
+  this.scrolly = 0;
   this.align = [0,0]; //first arg 0->left ,1->center ,2->right ; second arg 0->top ,1->bottom ,2->baseline ,3->center
   this.lineh = 14;
   this.txtStyle = 0; // 0->normal,1->italic,2->bold,3->boldItalic
@@ -111,6 +113,18 @@ function ui(ui_parent){
     return this;
   }
   
+  this.set_snap_px = function(a1,b1,a2,b2){
+    let px = a1/this.p.width*this.p.n_row;
+    let py = b1/this.p.height*this.p.n_col;
+    let qx = a2/this.p.width*this.p.n_row;
+    let qy = b2/this.p.height*this.p.n_col;
+    this.snaps = [px,py,qx,qy];
+    if(this.p !=null){
+      this.snap();
+    }
+    return this;
+  }
+  
   this.del_snap = function(a1,b1,a2,b2,stric){
     this.snaps = [this.snaps[0]+a1,this.snaps[1]+b1,this.snaps[2]+a2,this.snaps[3]+b2];
     if(stric){
@@ -147,18 +161,47 @@ function ui(ui_parent){
     }
   }
   
-  this.set_radius_i = function(tl,tr,bl,br){
+  this.set_radius_i_px = function(tl,tr,bl,br){
     this.tl_radius = tl;
     this.tr_radius = tr;
     this.bl_radius = bl;
     this.br_radius = br;
   }
   
+  this.set_radius_px = function(r){
+    this.set_radius_i_px(r,r,r,r);
+  }
+  
+  this.x_to_weight = function(p){
+    return p*this.p.n_row/this.p.width;
+  }
+  
+  this.y_to_weight = function(p){
+    return p*this.p.n_col/this.p.height;
+  }
+  
+  this.weight_to_x = function(q){
+    return q*this.p.width/this.p.n_row;
+  }
+  
+  this.weight_to_y = function(q){
+    return q*this.p.height/this.p.n_col;
+  }
+  
+  this.set_radius_i = function(tl,tr,bl,br){
+    this.tl_radius = this.weight_to_x(tl);
+    this.tr_radius = this.weight_to_x(tr);
+    this.bl_radius = this.weight_to_x(bl);
+    this.br_radius = this.weight_to_x(br);
+  }
+  
   this.set_radius = function(r){
-    this.tl_radius = r;
-    this.tr_radius = r;
-    this.bl_radius = r;
-    this.br_radius = r;
+    this.set_radius_i(r,r,r,r);
+  }
+  
+  this.set_scroll = function(a,b){
+    this.scrollx = a;
+    this.scrolly = b;
   }
   
   this.coord = function(){
@@ -415,7 +458,7 @@ function ui(ui_parent){
     }
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
-    text(str,0,0,this.width);
+    text(str,this.scrollx,this.scrolly,this.width-this.scrollx);
     translate(-this.x,-this.y);
     rotate(-this.angle*PI/180);
     }else{
@@ -473,9 +516,9 @@ function ui(ui_parent){
     }else if(this.txtStyle == 3){
       this.canvas.textStyle(BOLDITALIC);
     }
-    this.canvas.text(str,0,0,this.width);
+    this.canvas.text(str,0,0,this.width+this.scrollx);
     }
-    let capture = this.canvas.get(0,0,this.width,this.height);
+    let capture = this.canvas.get(this.scrollx,this.scrolly,this.width,this.height);
     if(capture.height > 1 && capture.width > 1){
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
