@@ -1,7 +1,3 @@
-# Simple And Elegent UI
-  **UI library** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go.
-  
-
 <details> 
 <summary> Click me </summary>
 <p>
@@ -9,6 +5,9 @@ You can literally do whatever you like
 </p>
 </details>
 
+# Simple And Elegent UI
+**UI library ** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go.
+  
 ### Topics
 - Constructors
 - Setter functions
@@ -29,8 +28,51 @@ You can literally do whatever you like
    There is only one constructor available in ui.js file and that is 
 `ui()` without any parameters.
 
+### Setters
+
+### Getters
+
+### Others
+
+### Miscellaneous
+#### variables held by ui.js
+The variables inside ui.js are not to be modified directly in user code , only getters and setters functions are to be used to modify then .
+But reading them is fine.
+| SN |    variables   |    default_value   | getters and setters |
+|----|---------------|-----------------|----------|
+|1| canvas| createGraphics(width,height)| |
+|2| clipped| false| |
+|3| x| 0| |
+|4| y| 0| |
+|5| width| width| |
+|6| height| height| |
+|7| tl_radius| 0| |
+|8| tr_radius| 0| |
+|9| bl_radius| 0| |
+|10| br_radius| 0| |
+|11| n_row| 1| |
+|12| n_col| 1| |
+|13| color| 0| |
+|14| stroke_color|  color(0,0,0,0)| |
+|15| snaps| [0,0,1,1]| |
+|16| wrap| 1| |
+|17| fontSize| 14| |
+|18| txtCol| 0| |
+|19| str| ""| |
+|20| align| [0,0]| |
+|21| lineh| 14| |
+|22| txtStyle| 0| |
+|23| angle| 0| |
+|24| mx| 0| |
+|25| my| null| |
+|26| last_clicked| false| |
+|27| p| ui_parent| |
+|28| inp| null| |
+
+
+
 ### Summary
-##### All the available functions :
+#### All the available functions :
 | SN | Name | Description of parameters |
 |--------|-------------------------|------|
 |1| ui()   | constructor function without parameters|
@@ -64,6 +106,21 @@ You can literally do whatever you like
 |29| set_text_style| sets style of text like bold , italic as described above|
 |30| hovered() | returns if the lastest object hovered is this|
 |31| clicked() | returns if the object is clicked or not|
+|32| free_hover()| frees hover u variable , it is used when different parents comes on top of the other.|
+|33| set_stroke_color(color)| sets stroke color|
+|34| set_color(color)| sets color|
+|35| sc(r,g,b)| similar to c(r,g,b) ,sets stroke color|
+|36| sc(r,g,b,a)| similar to sc(r,g,b,a) ,sets stroke color|
+|37| set_radius(radius)| sets the radius of all corners of the box , radius is in weight|
+|38| set_radius_i(tl,tr,bl,br)| sets individual radius of four corners, all parameters are in weight| 
+|39| set_radius_px(radius)| sets the radius of all corners of the box , radius is in pixels|
+|40| set_radius_i_px(tl,tr,bl,br)| sets individual radius of four corners, all parameters are in pixels|
+|41| x_to_weight(a)| returns the weight value of a(in pixel) with respect to width of parent|
+|42| y_to_weight(a)| returns the weight value of a(in pixel) with respect to heightof parent|
+|43| weight_to_x(a)| returns the pixel value of a(in weight) with respect to width of parent|
+|44| weight_to_y(a)| returns the pixel value of a(in weight) with respect to height of parent|
+
+
 
 
 
