@@ -18,6 +18,7 @@ function ui(ui_parent){
   this.n_row = 1;
   this.n_col = 1;
   this.color = 0;
+  this.stroke_color = color(0,0,0,0);
   this.snaps = [0,0,1,1];
   this.p = ui_parent;
   this.wrap = 1;
@@ -76,6 +77,25 @@ function ui(ui_parent){
     }else{
       this.color = color(r,g,b,a);
     }
+    return this;
+  }
+  
+  this.set_color = function(c){
+    this.color = c;
+    return this;
+  }
+  
+   this.sc = function(r,g,b,a){
+    if(!a){
+    this.stroke_color = color(r,g,b);
+    }else{
+      this.stroke_color = color(r,g,b,a);
+    }
+    return this;
+  }
+  
+  this.set_stroke_color = function(c){
+    this.stroke_color = c;
     return this;
   }
   
@@ -180,7 +200,7 @@ function ui(ui_parent){
     if(this.p == null){
       
       push();
-      noStroke();
+      stroke(this.stroke_color);
       fill(this.color);
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
@@ -201,7 +221,7 @@ function ui(ui_parent){
     }else{
       push();
       this.snap();
-      noStroke();
+      stroke(this.stroke_color);
       fill(this.color);
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
