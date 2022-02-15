@@ -1,14 +1,14 @@
 <details> 
 <summary> Click me </summary>
 <p>
-You can literally do whatever you like
+Just for texting collapsable in github
 </p>
 </details>
 
 # Simple And Elegent UI
-**UI library ** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go.
+***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go.
   
-### Topics
+### ***Topics***
 - Constructors
 - Setter functions
   - public usable setter functions
@@ -21,21 +21,72 @@ You can literally do whatever you like
  - Miscellaneous
    - variables held by ui.js file
    - colors and themes in help.js file
+  - Examples
  - Summary
   
   ## Descriptions
-### Constructors
-   There is only one constructor available in ui.js file and that is 
-`ui()` without any parameters.
-
-### Setters
-
-### Getters
-
-### Others
-
-### Miscellaneous
-#### variables held by ui.js
+### ***Constructors***
+   There are two constructor available in ui.js file and that is 
+`ui()` and `ui(ui_parent)` without any parameters.
+   __ui()__ is only for public use while __ui(ui_parent)__ is a private construct used by copy() function behind the back.
+   
+ ---------------------------------------
+### ***Setters***
+#### private setters
+- snap()
+- edit(str)
+- createInp(event)
+#### public setters
+- setup( size )
+- grid(n_row ,n_col)
+- c(r , g ,b)
+- c(r ,g ,b ,a)
+- set_snap(x1,y1,x2,y2)
+- del_snap(delx1,dely1,delx2,dely2,stric)
+- del_snap_px(delx1,dely1,delx2,dely2,stric)
+-  set_str(text)
+-  set_angle(angle)
+- set_clip(clipped)
+- repos(delx,dely,delw,delh)
+- set_align(a,b)
+- set_line_height(height)
+- set_text_color(color)
+- set_text_style(style)
+- free_hover()
+- set_stroke_color(color)
+- set_color(color)
+- sc(r ,g ,b)
+- sc(r ,g ,b ,a)
+- set_radius(radius)
+- set_radius_i(tl,tr,bl,br)
+- set_radius_px(radius)
+- set_radius_i_px(tl,tr,bl,br)
+----------------------------------------------------------------
+### ***Getters***
+#### private getters
+There are no private getter functions
+#### public getters
+- x_to_weight(a)
+- y_to_weight(a)
+- weight_to_x(a)
+- weight_to_y(a)
+-  coord()
+- hovered()
+- clicked()
+- point_in(x,y)
+- point_inside(x,y)
+- hasinside(ui)
+- collision(ui)
+- get_line_height()
+-------------------------------------------------------------
+### ***Others***
+#### public functions
+- copy()
+- draw()
+- nothing()
+-----------------------------------------------------------
+### ***Miscellaneous***
+#### Variables held by ui.js
 The variables inside ui.js are not to be modified directly in user code , only getters and setters functions are to be used to modify then .
 But reading them is fine.
 | SN |    variables   |    default_value   | getters and setters |
@@ -68,9 +119,14 @@ But reading them is fine.
 |26| last_clicked| false| |
 |27| p| ui_parent| |
 |28| inp| null| |
+|29| scrollx| 0| |
+|30| scrolly| 0| |
+
+---------------------------------------------------------------------
+### Examples
 
 
-
+------------------------------------------------------------------
 ### Summary
 #### All the available functions :
 | SN | Name | Description of parameters |
@@ -89,7 +145,7 @@ But reading them is fine.
 |12| set_str(text) | sets text to be shown while displaying text in ui element |
 |13| set_angle(angle) | sets angle for rotation, where angle is in degrees |
 |14| coord() | returns the coordinates after applying rotations|
-|15| set_clip(clipped) | boolean value clipped if set true will clip any content outside the rectangular box|
+|15| set_clip(clipped) | boolean value clipped if set true will clip any text content outside the rectangular box|
 |16| draw() | without parameters and should be called every time a ui is drawn |
 |17| repos(delx,dely,delw,delh) | all parameters affects at pixel sizing and this function helps in translation of element |
 |18| point_in(x,y) | checks if a point is in the rotated or unrotated rectangle or not |
@@ -98,12 +154,12 @@ But reading them is fine.
 |21| collision(ui) | to check if the provided ui object collides with this ui or not either rotated or unrotated|
 |22| nothing() | function that does nothing |
 |23| edit(text) | displays text on ui|
-|24| createInp| **deprecated function**|
+|24| createInp(event)| ***deprecated function***|
 |25| set_align(a,b) | sets alignment where a, b has meaning and values as described in upper chapters|
 |26| set_line_height(height)| sets the text line height|
 |27| get_line_height() | returns line height|
 |28| set_text_color(color) | sets color of text|
-|29| set_text_style| sets style of text like bold , italic as described above|
+|29| set_text_style(style)| sets style of text like bold , italic as described above|
 |30| hovered() | returns if the lastest object hovered is this|
 |31| clicked() | returns if the object is clicked or not|
 |32| free_hover()| frees hover u variable , it is used when different parents comes on top of the other.|
@@ -119,9 +175,9 @@ But reading them is fine.
 |42| y_to_weight(a)| returns the weight value of a(in pixel) with respect to heightof parent|
 |43| weight_to_x(a)| returns the pixel value of a(in weight) with respect to width of parent|
 |44| weight_to_y(a)| returns the pixel value of a(in weight) with respect to height of parent|
+|45| set_scroll(a,b)| sets scrollx and scrolly for text scrolling|
 
-
-
+-----------------------------------------------------
 
 
 
