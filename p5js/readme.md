@@ -11,23 +11,24 @@ Just for texting collapsable in github
 ### ***Topics***
 - Constructors
 - Setter functions
-  - public usable setter functions
-  - private setter functions
+  * public usable setter functions
+  * private setter functions
  - Getter functions
-   - public getter functions
-   - private getter functions
+   * public getter functions
+   * private getter functions
+   * functions that returns this object
  - Other functions
-    - all other functions are private and are deprected to be used driectly in the code 
+    * all other functions are private and are deprected to be used driectly in the code 
  - Miscellaneous
-   - variables held by ui.js file
-   - colors and themes in help.js file
+   * variables held by ui.js file
+   * colors and themes in help.js file
   - Examples
  - Summary
   
   ## Descriptions
 ### ***Constructors***
-   There are two constructor available in ui.js file and that is 
-`ui()` and `ui(ui_parent)` without any parameters.
+--> To remember
+ : There are two constructor available in ui.js file and that is ui()` and `ui(ui_parent)` without any parameters.
    __ui()__ is only for public use while __ui(ui_parent)__ is a private construct used by copy() function behind the back.
    
  ---------------------------------------
@@ -38,10 +39,82 @@ Just for texting collapsable in github
 - createInp(event)
 #### public setters
 - setup( size )
+	--> size can be [x,y] describing top left position, width and height are the size of canvas by deafult
+	--> size can be [x,y,w,h] describing top left position and  width and height of ui 
+	**Note : This is only for parents.**
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]);
+	v = new ui().setup([200,200,100,100]);
+}
+function draw(){
+	u.draw();
+	v.draw(); 
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - grid(n_row ,n_col)
+---> n_row and n_col describe the partition of the box like a grid for holding child ui. The grid is 1 by 1 by default.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5);
+	v = u.copy();
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - c(r , g ,b)
+---> r , g and b are red , green and blue respectively ranging from 0 to 255.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - c(r ,g ,b ,a)
+--->  r , g , b and a are red , green , blue and alpha respectively ranging from 0 to 255.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_snap(x1,y1,x2,y2)
+---> x1,y1 nad x2,y2 gives top-left and bottom-right  respectively position of child ui on grid of parent
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - del_snap(delx1,dely1,delx2,dely2,stric)
 - del_snap_px(delx1,dely1,delx2,dely2,stric)
 -  set_str(text)
@@ -56,15 +129,100 @@ Just for texting collapsable in github
 - set_stroke_color(color)
 - set_color(color)
 - sc(r ,g ,b)
+---> r , g and b are red , green and blue respectively ranging from 0 to 255.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().c(255,0,0).sc(0,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - sc(r ,g ,b ,a)
+---> r , g , b and a are red , green , blue and alpha respectively ranging from 0 to 255.
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().c(255,0,0).sc(0,0,0,125);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_radius(radius)
+---> function sets corner to same radius in weight value with respect to parent width(to max 1) ranging from 0 to 1 but greater than 1 is fine which gives radius larger value
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,1,4,4).set_radius(0.5).c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_radius_i(tl,tr,bl,br)
+---> function sets corner tl(top left), tr(top right), bl(bottom left), and br(bottom right) in weight value with respect to parent width(to max 1) ranging from 0 to 1 but greater than 1 is fine which gives radius larger value
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,1,4,4).set_radius_i(0.5,0.2,0.2,0.3).c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_radius_px(radius)
+---> function sets corner to same radius in pixel value with respect to parent width
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,1,4,4).set_radius_px(50).c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - set_radius_i_px(tl,tr,bl,br)
+---> function sets corner tl(top left), tr(top right), bl(bottom left), and br(bottom right) in pixelvalue with respect to parent width
+```javascript
+let u,v;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = u.copy().set_snap(0,1,4,4).set_radius_i_px(50,50,100,100).c(255,0,0);
+}
+function draw(){
+	u.draw();
+	v.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 ----------------------------------------------------------------
 ### ***Getters***
 #### private getters
-There are no private getter functions
+--> To remember
+: There are no private getter functions
 #### public getters
 - x_to_weight(a)
 - y_to_weight(a)
@@ -78,11 +236,14 @@ There are no private getter functions
 - hasinside(ui)
 - collision(ui)
 - get_line_height()
+#### functions that return this object
 -------------------------------------------------------------
 ### ***Others***
 #### public functions
 - copy()
 - draw()
+ **Note**
+	---> Every ui are rendered in the order they are placed in draw call in p5.
 - nothing()
 -----------------------------------------------------------
 ### ***Miscellaneous***
@@ -177,7 +338,7 @@ But reading them is fine.
 |44| weight_to_y(a)| returns the pixel value of a(in weight) with respect to height of parent|
 |45| set_scroll(a,b)| sets scrollx and scrolly for text scrolling|
 
------------------------------------------------------
+-----------------------------------------------------------
 
 
 
