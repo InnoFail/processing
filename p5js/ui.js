@@ -11,6 +11,10 @@ function ui(ui_parent){
   this.y = 0;
   this.width = width;
   this.height = height;
+  this.tl_radius = 0;
+  this.tr_radius = 0;
+  this.bl_radius = 0;
+  this.br_radius = 0;
   this.n_row = 1;
   this.n_col = 1;
   this.color = 0;
@@ -123,6 +127,20 @@ function ui(ui_parent){
     }
   }
   
+  this.set_radius_i = function(tl,tr,bl,br){
+    this.tl_radius = tl;
+    this.tr_radius = tr;
+    this.bl_radius = bl;
+    this.br_radius = br;
+  }
+  
+  this.set_radius = function(r){
+    this.tl_radius = r;
+    this.tr_radius = r;
+    this.bl_radius = r;
+    this.br_radius = r;
+  }
+  
   this.coord = function(){
     let a1 = sin(this.angle*PI/180);
     let a2 = sin(PI/2+this.angle*PI/180);
@@ -176,7 +194,7 @@ function ui(ui_parent){
       }
       
       
-      rect(this.x,this.y,this.width,this.height);
+      rect(this.x,this.y,this.width,this.height,this.tl_radius,this.tr_radius,this.bl_radius,this.br_radius);
       
       pop();
       this.edit(this.str);
@@ -197,7 +215,7 @@ function ui(ui_parent){
       }
       
       
-      rect(this.x,this.y,this.width,this.height);
+      rect(this.x,this.y,this.width,this.height,this.tl_radius,this.tr_radius,this.bl_radius,this.br_radius);
       pop();
       this.edit(this.str);
       
