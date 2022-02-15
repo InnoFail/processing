@@ -102,7 +102,7 @@ function ui(ui_parent){
   }
   
   this.copy = function(){
-    return new ui(this).set_snap(0,0,1,1).snap();
+    return new ui(this).set_snap(0,0,1,1).snap().set_color(this.color);
   }
   
   this.set_snap = function(a1,b1,a2,b2){
@@ -144,10 +144,12 @@ function ui(ui_parent){
       let qy = b2/this.p.height*this.p.n_col;
       this.del_snap(px,py,qx,qy,stric);
     }
+    return this;
   }
   
   this.set_str = function(str){
     this.str = str;
+    return this;
   }
   
   //use of set_angle is depreceted
@@ -159,6 +161,7 @@ function ui(ui_parent){
     if(this.angle < 0){
       this.angle = 360 + this.angle;
     }
+    return this;
   }
   
   this.set_radius_i_px = function(tl,tr,bl,br){
@@ -166,10 +169,12 @@ function ui(ui_parent){
     this.tr_radius = tr;
     this.bl_radius = bl;
     this.br_radius = br;
+    return this;
   }
   
   this.set_radius_px = function(r){
     this.set_radius_i_px(r,r,r,r);
+    return this;
   }
   
   this.x_to_weight = function(p){
@@ -193,15 +198,18 @@ function ui(ui_parent){
     this.tr_radius = this.weight_to_x(tr);
     this.bl_radius = this.weight_to_x(bl);
     this.br_radius = this.weight_to_x(br);
+    return this;
   }
   
   this.set_radius = function(r){
     this.set_radius_i(r,r,r,r);
+    return this;
   }
   
   this.set_scroll = function(a,b){
     this.scrollx = a;
     this.scrolly = b;
+    return this;
   }
   
   this.coord = function(){
@@ -218,10 +226,12 @@ function ui(ui_parent){
   
   this.set_align = function(a,b){
     this.align = [a,b];
+    return this;
   }
   
   this.set_line_height = function(a){
     this.lineh = a;
+    return this;
   }
   
   this.get_line_height = function(){
@@ -230,13 +240,16 @@ function ui(ui_parent){
   
   this.set_text_style = function(a){
     this.txtStyle = a;
+    return this;
   }
   this.set_text_color = function(a){
     this.txtCol = a;
+    return this;
   }
   
   this.set_clip = function(a){
     this.clipped = a;
+    return this;
   }
   
   this.draw = function(){
@@ -290,6 +303,7 @@ function ui(ui_parent){
       this.y += dely;
       this.w += delw;
       this.h += delh;
+      return this;
   }
   
   
@@ -458,7 +472,7 @@ function ui(ui_parent){
     }
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
-    text(str,this.scrollx,this.scrolly,this.width-this.scrollx);
+    text(str,-this.scrollx,-this.scrolly,this.width+this.scrollx);
     translate(-this.x,-this.y);
     rotate(-this.angle*PI/180);
     }else{
@@ -526,6 +540,7 @@ function ui(ui_parent){
     translate(-this.x,-this.y);
     rotate(-this.angle*PI/180);
     }
+    return this;
   }
   
   
