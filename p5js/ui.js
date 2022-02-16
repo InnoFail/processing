@@ -1,7 +1,12 @@
 let last_hover = null;
+let last_focus = null;
 
 function free_hover(){
   last_hover = null;
+}
+
+function free_focus(){
+  last_focus = null;
 }
 
 function ui(ui_parent){
@@ -584,10 +589,19 @@ function ui(ui_parent){
     this.hovered(mouseX,mouseY);
     if(mouseIsPressed && this.point_in(mouseX,mouseY) && last_hover == this){
       this.last_clicked = true;
+      last_focus = this;
     }else{
       this.last_clicked = false;
     }
     return this.last_clicked;
+  }
+  
+  this.focused = function(){
+    this.clicked();
+    if(this == last_focus){
+      return true;
+    }
+    return false;
   }
   
 }
