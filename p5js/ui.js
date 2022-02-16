@@ -492,6 +492,14 @@ function ui(ui_parent){
     }else if(this.txtStyle == 3){
       textStyle(BOLDITALIC);
     }
+    
+    let that = this;
+      while(that.p != null){
+        translate(that.p.x,that.p.y);
+        rotate(that.p.angle * PI/180);
+        translate(-that.p.x,-that.p.y);
+        that = that.p;
+      }
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
     text(str,-this.scrollx,-this.scrolly,this.width+this.scrollx);
@@ -556,6 +564,13 @@ function ui(ui_parent){
     }
     let capture = this.canvas.get(this.scrollx,this.scrolly,this.width,this.height);
     if(capture.height > 1 && capture.width > 1){
+    let that = this;
+      while(that.p != null){
+        translate(that.p.x,that.p.y);
+        rotate(that.p.angle * PI/180);
+        translate(-that.p.x,-that.p.y);
+        that = that.p;
+      }
     translate(this.x,this.y);
     rotate(this.angle*PI/180);
     image(capture,0,0);
