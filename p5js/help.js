@@ -27,7 +27,7 @@ function help(){
   this.n_yellow = color(252,200,3);
   this.n_green = color(78,213,95);
   this.n_orange = color(249,146,5);
-  this.n_violet = color(87.82,208);
+  this.n_violet = color(87,82,208);
   this.n_pink = color(249,45,82);
   
   this.dye_blue = color(11,19,84);
