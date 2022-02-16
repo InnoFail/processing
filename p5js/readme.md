@@ -678,7 +678,8 @@ But reading them is fine.
  `let code = h.get_key();`
  - delx() ---> returns small change in mouse position_x while moving
  - dely() ---> returns small change in mouse position_y while moving
- They are:
+ 
+ The colors are:
  - clear
  - white
  - black
