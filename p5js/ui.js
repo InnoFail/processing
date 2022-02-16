@@ -26,7 +26,7 @@ function ui(ui_parent){
   this.stroke_color = color(0,0,0,0);
   this.snaps = [0,0,1,1];
   this.p = ui_parent;
-  this.wrap = 1; // 0-> word , 1-> letters
+  this.wrap = 0; // 0-> word , 1-> letters
   this.fontSize = 14;
   this.txtCol = 0;
   this.str = '';
@@ -275,6 +275,13 @@ function ui(ui_parent){
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
       translate(-this.x,-this.y);
+      let that = this;
+      while(that.p != null){
+        translate(that.p.x,that.p.y);
+        rotate(that.p.angle * PI/180);
+        translate(-that.p.x,-that.p.y);
+        that = that.p;
+      }
       
       
       if(this.inp != null){
@@ -289,6 +296,7 @@ function ui(ui_parent){
       pop();
       this.edit(this.str);
     }else{
+      
       push();
       this.snap();
       stroke(this.stroke_color);
