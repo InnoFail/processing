@@ -21,7 +21,7 @@ function ui(ui_parent){
   this.stroke_color = color(0,0,0,0);
   this.snaps = [0,0,1,1];
   this.p = ui_parent;
-  this.wrap = 1;
+  this.wrap = 1; // 0-> word , 1-> letters
   this.fontSize = 14;
   this.txtCol = 0;
   this.str = '';
@@ -252,6 +252,15 @@ function ui(ui_parent){
     return this;
   }
   
+  this.set_wrap = function(a){
+    this.wrap = a;
+    return this;
+  }
+  
+  this.set_font_size = function(a){
+    this.fontSize = a;
+    return this;
+  }
   this.draw = function(){
     if(this.p == null){
       
