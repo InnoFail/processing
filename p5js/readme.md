@@ -1,5 +1,5 @@
 # Simple And Elegent UI
-***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. Unfortunately , it supports all the rotations and translations but after rotations the point_in algorithm doesnot work. But all rotations and translations can be used for decorations.
+***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. Unfortunately , it supports all the rotations and translations but after rotations the point_in algorithm doesnot work, that is, clicked , hovered, focused functions stops working for rotated ui. But all rotations and translations can be used for decorations.
   
 ### ***Topics***
 - Constructors
