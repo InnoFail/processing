@@ -6,17 +6,19 @@ function setup(){
    createCanvas(600,350);
   h = new help();
   u = new ui().grid(5,5).c(125,0,125);
-  v = u.copy().set_snap(0,0,4,5).grid(3,3).c(125,225,125);
-  w = u.copy().set_snap(4,0,5,5).c(125,125,0);
-  g =v.copy().set_snap(0,1,2,2).c(255,0,0);
-  //w.set_clip(true);
-  w.set_text_color(color(255,0,255));
-  g.set_radius(100);
-  q=g.copy().set_snap(0.2,0.2,0.8,0.8).c(255,0,0);
+  v = u.copy().set_snap(0,0,4,5).grid(3,3).set_color(h.dye_blue).set_text_color(h.white);
+  w = u.copy().set_snap(4,0,5,5).set_color(h.dye_violet);
+  g =v.copy().set_snap(0,1,2,2).set_color(h.l(h.grey_3,h.n_red));
+  g.set_radius(1);
+  q=g.copy().set_snap(0.2,0.2,0.8,0.8).set_text_color(h.l(h.grey_5,h.n_red));
   q.set_clip(true);
+  //q.set_scroll(30,10);
+  q.sc(0,0,0);
+  q.set_text_style(1);
   
-  t = new ui().setup([100,100,100,100]).grid(3,3).c(255,255,0);
-  p= t.copy().set_snap(0,0,3,1).c(155,0,0);
+  t = new ui().setup([100,100,100,100]).grid(3,3).set_color(h.dye_light_pink);
+  p= t.copy().set_snap(0,0,3,1).set_color(h.grey).set_text_color(h.white);
+  p.set_align(1,0);
 }
 
 
@@ -29,7 +31,7 @@ function draw(){
   q.draw();
   t.draw();
   p.draw();
-  v.set_str("Hover on red box and then try to type something.")
+  v.set_str("Hover on red box and then try to type something.");
   if(u.clicked()){
     v.del_snap_px(0,0,-h.delx(),0,true);
     w.del_snap_px(-h.delx(),0,0,0,true);
@@ -40,6 +42,8 @@ function draw(){
   if(t.clicked()){
     t.repos(-h.delx(),-h.dely());
   }
+  
+  p.set_str(h.time+"");
   if( g.hovered()){
     pp += keyi;
   }
