@@ -486,7 +486,7 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
-- focused()
+
 ----------------------------------------------------------------
 ### ***Getters***
 #### private getters
@@ -508,11 +508,90 @@ function draw(){
 -  coord()
 `let coordinates = u.coord();`
 - hovered()
+---> only use free_hover() function if the ui you are using free_hover() is not a child of any other ui.
+```javascript
+let u,v,w;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = new ui().setup([100,100,100,100]).c(255,0,255);
+	w = v.copy().set_snap(0,0,0.5,0,5).c(0,255,0);
+}
+function draw(){
+	v.set_str("Wow this is lamang and I am very hostile to see you here , how will you like to play football with me.");
+	free_hover();
+	if(v.hovered()){
+		v.set_str("hovered");
+	}
+	if(w.hovered()){
+		v.set_str("w_hovered");
+	}
+	u.draw();
+	v.draw();
+	w.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - clicked()
+---> only use free_hover() function if the ui you are using free_hover() is not a child of any other ui.
+```javascript
+let u,v,w;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = new ui().setup([100,100,100,100]).c(255,0,255);
+	w = v.copy().set_snap(0,0,0.5,0,5).c(0,255,0);
+}
+function draw(){
+	v.set_str("Wow this is lamang and I am very hostile to see you here , how will you like to play football with me.");
+	free_hover();
+	if(v.clicked()){
+		v.set_str("hovered");
+	}
+	if(w.clicked()){
+		v.set_str("w_hovered");
+	}
+	u.draw();
+	v.draw();
+	w.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
+- focused()
+---> only use free_hover() function if the ui you are using free_hover() is not a child of any other ui.
+```javascript
+let u,v,w;
+function setup(){
+	createCanvas(600,350);
+	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
+	v = new ui().setup([100,100,100,100]).c(255,0,255);
+	w = v.copy().set_snap(0,0,0.5,0,5).c(0,255,0);
+}
+function draw(){
+	v.set_str("Wow this is lamang and I am very hostile to see you here , how will you like to play football with me.");
+	free_hover();
+	if(v.focused()){
+		v.set_str("hovered");
+	}
+	if(w.focused()){
+		v.set_str("w_hovered");
+	}
+	u.draw();
+	v.draw();
+	w.draw();
+	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
+}
+```
 - point_in(x,y)
+---> difference between point_in and point_inside is nothing if rotation is not applied.
+`let bool_ = ui.point_in(mouseX,mouseY);`
 - point_inside(x,y)
+---> difference between point_in and point_inside is nothing if rotation is not applied.
+`let bool_ = ui.point_inside(mouseX,mouseY);
 - hasinside(ui)
+`let bool_ = u.has_inside(v);\\ that_is does v is inside u;`
 - collision(ui)
+``let bool_ = ui.collision(v);\\ if v and u are touching`
 - get_line_height()
 `let h = u.get_line_height()`
 #### using variables to get values
@@ -586,7 +665,56 @@ But reading them is fine.
 |30| scrolly| 0| set_scroll()|
 |31| last_hover| null| hovered()|
 |32| last_focus| null| focued(),clicked()|
-
+#### colors and themes in help.js file
+ help.js contains fourthemes that is normal(n), dye, brick and vb(vibrant). 
+ There are two functions :
+ - l(color1,color2) ---> mixes two color
+ ```javascript
+ let h = new help();
+ let c = lerp(h.grey_5,h.n_green);
+ let u = new ui().set_color(c);
+```
+ - get_key() ---> returns key_code after key_is_released
+ `let code = h.get_key();`
+ - delx() ---> returns small change in mouse position_x while moving
+ - dely() ---> returns small change in mouse position_y while moving
+ They are:
+ - clear
+ - white
+ - black
+ - grey
+ - grey_1
+ - grey_2
+ - grey_3
+ - grey_4
+ - grey_5
+ - n_red
+ - n_blue
+ - n_sky_blue
+ - n_light_blue
+ - n_yellow
+ - n_green
+ - n_orange
+ - n_violet
+ - n_pink
+ - dye_blue
+ - dye_sky_blue
+ - dye_violet
+ - dye_dark_pink
+ - dye_pink
+ - dye_light_pink
+ - brick_dark_blue
+ - brick_blue
+ - brick_red
+ - brick_violet
+ - brick_pink
+ - vb_orange
+ - vb_blue
+ - vb_aqua
+ - vb_red
+ - vb_yellow
+ 
+ 
 ---------------------------------------------------------------------
 ### Examples
 
