@@ -1,6 +1,13 @@
+let key_code = "";
+
+
+function keyReleased(){
+  key_code = key;
+}
+
 function help(){
   this.time = 0;
-  setInterval(()=>{this.time++;},1000);
+  setInterval(()=>{this.time++;},10);
   
   this.clear = color(0,0,0,0);
   this.white = color(255);
@@ -44,6 +51,12 @@ function help(){
   
   this.l = function(a,b){
     return lerpColor(a,b,0.5);
+  }
+  
+  this.get_key = function(){
+    let temp = key_code;
+    key_code = "";
+    return temp;
   }
   
   this.delx = function(){
