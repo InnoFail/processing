@@ -36,6 +36,12 @@ function help(){
   this.brick_violet = color(112,12,84);
   this.brick_pink = color(235,219,152);
   
+  this.vb_orange = color(243,98,54);
+  this.vb_blue = color(47,40,89);
+  this.vb_aqua = color(26,154,140);
+  this.vb_red = color(231,29,54);
+  this.vb_yellow = color(231,213,76);
+  
   this.l = function(a,b){
     return lerpColor(a,b,0.5);
   }
