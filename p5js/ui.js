@@ -304,7 +304,13 @@ function ui(ui_parent){
       translate(this.x,this.y);
       rotate(this.angle * PI/180);
       translate(-this.x,-this.y);
-      
+      let that = this;
+      while(that.p != null){
+        translate(that.p.x,that.p.y);
+        rotate(that.p.angle * PI/180);
+        translate(-that.p.x,-that.p.y);
+        that = that.p;
+      }
       
       if(this.inp != null){
         this.inp.position(this.x,this.y);
@@ -596,6 +602,7 @@ function ui(ui_parent){
   
   //hover and click
   this.hovered = function(){
+   
     if(this.point_in(mouseX,mouseY) && (last_hover == null || last_hover == this || this.p!=null && this.p.hovered())){
       last_hover = this;
     }
@@ -622,6 +629,35 @@ function ui(ui_parent){
   this.focused = function(){
     this.clicked();
     if(this == last_focus){
+      return true;
+    }
+    return false;
+  }
+  
+  let del = 3;
+  this.t_end = function(){
+    if(this.y <= this.p.y+del && this.y >= this.p.y-del){
+      return true;
+    }
+    return false;
+  }
+  
+  this.l_end = function(){
+    if(this.x <= this.p.x+del && this.x >= this.p.x-del){
+      return true;
+    }
+    return false;
+  }
+  
+  this.r_end = function(){
+    if(this.x+this.width <= this.p.x+this.p.width+del && this.x+this.width >= this.p.x+this.p.width-del){
+      return true;
+    }
+    return false;
+  }
+  
+  this.b_end = function(){
+    if(this.y+this.height <= this.p.y+this.p.height+del && this.y+this.height >= this.p.y+this.p.height-del){
       return true;
     }
     return false;
