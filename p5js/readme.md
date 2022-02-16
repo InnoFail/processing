@@ -1,12 +1,5 @@
-<details> 
-<summary> Click me </summary>
-<p>
-Just for texting collapsable in github
-</p>
-</details>
-
 # Simple And Elegent UI
-***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go.
+***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. Unfortunately , it supports all the rotations and translations but after rotations the point_in algorithm doesnot work. But all rotations and translations can be used for decorations.
   
 ### ***Topics***
 - Constructors
@@ -204,13 +197,14 @@ function draw(){
 }
 ```
 - repos(delx,dely,delw,delh)
----> sets a change in top-left position and on size of ui
+---> sets a change in top-left position and on size of ui if and only if ui has no parent, that is it is a parent.
 ```javascript
 let u,v;
 function setup(){
 	createCanvas(600,350);
 	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
 	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
+	u.repos(100,100);
 	v.repos(50,50,0,0);
 }
 function draw(){
@@ -492,6 +486,7 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
+- focused()
 ----------------------------------------------------------------
 ### ***Getters***
 #### private getters
@@ -589,7 +584,8 @@ But reading them is fine.
 |28| inp| null| createInp()|
 |29| scrollx| 0| set_scroll()|
 |30| scrolly| 0| set_scroll()|
-|31| last_hovered| null| hovered()|
+|31| last_hover| null| hovered()|
+|32| last_focus| null| focued(),clicked()|
 
 ---------------------------------------------------------------------
 ### Examples
@@ -616,7 +612,7 @@ But reading them is fine.
 |14| coord() | returns the coordinates after applying rotations|
 |15| set_clip(clipped) | boolean value clipped if set true will clip any text content outside the rectangular box|
 |16| draw() | without parameters and should be called every time a ui is drawn |
-|17| repos(delx,dely,delw,delh) | all parameters affects at pixel sizing and this function helps in translation of element |
+|17| repos(delx,dely,delw,delh) | all parameters affects at pixel sizing and this function helps in translation of element, but using repos(delx,dely) is just fine |
 |18| point_in(x,y) | checks if a point is in the rotated or unrotated rectangle or not |
 |19| point_inside(x,y) | checks if a point is in an unrotated rectangle or not , this function is only to increase performance|
 |20| hasinside(ui) | to determine if a ui is totally inside another ui either rotated or not | 
@@ -649,9 +645,6 @@ But reading them is fine.
 |47| set_font_size(a)| sets font size|
 
 -----------------------------------------------------------
-
-
-
 
 
 
