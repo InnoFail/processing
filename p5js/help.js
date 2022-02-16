@@ -1,0 +1,53 @@
+function help(){
+  this.time = 0;
+  setInterval(()=>{this.time++;},1000);
+  
+  this.clear = color(0,0,0,0);
+  this.white = color(255);
+  this.black = color(0,0,0);
+  this.grey = color(80,80,80);
+  
+  this.grey_1 = color(189);
+  this.grey_2 = color(159);
+  this.grey_3 = color(105);
+  this.grey_4 = color(66);
+  this.grey_5 = color(45);
+  
+  this.n_red = color(249,59,47);
+  this.n_blue = color(3,118,247);
+  this.n_sky_blue = color(90,196,246);
+  this.n_light_blue = color(52,166,214);
+  this.n_yellow = color(252,200,3);
+  this.n_green = color(78,213,95);
+  this.n_orange = color(249,146,5);
+  this.n_violet = color(87.82,208);
+  this.n_pink = color(249,45,82);
+  
+  this.dye_blue = color(11,19,84);
+  this.dye_sky_blue = color(22,91,170);
+  this.dye_violet = color(161,85,185);
+  this.dye_dark_pink = color(247,101,163);
+  this.dye_pink = color(253,163,181);
+  this.dye_light_pink = color(249,209,209);
+  
+  this.brick_dark_blue = color(88,100,146);
+  this.brick_blue = color(118,171,187);
+  this.brick_red = color(248,66,82);
+  this.brick_violet = color(112,12,84);
+  this.brick_pink = color(235,219,152);
+  
+  this.l = function(a,b){
+    return lerpColor(a,b,0.5);
+  }
+  
+  this.delx = function(){
+  return  pmouseX - mouseX;
+}
+
+
+  this.dely = function(){
+  return  pmouseY - mouseY;
+}
+
+  
+}
