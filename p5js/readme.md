@@ -748,8 +748,11 @@ function setup(){
   t = s.copy().set_snap_px(8,8,s.width-8,s.height-8).set_str("Scroll");
   // a is a component of s with no parent
   // b is component of t with parant a
-  a = s.component(null).repos(120,0,120,0);
-  b = t.component(a);
+  a = s.component(null).set_str("hello_world");
+  let temp1 = a.get_text_width();
+  let temp2 = s.get_text_width();
+  a.repos(120,0,temp1-temp2+8*temp1/temp2,0);
+  b = t.component(a).set_str("hello_world");
 }
 
 
