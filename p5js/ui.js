@@ -32,6 +32,7 @@ function ui(ui_parent){
   this.str = '';
   this.scrollx = 0;
   this.scrolly = 0;
+  this.no_edit = false;
   this.align = [0,0]; //first arg 0->left ,1->center ,2->right ; second arg 0->top ,1->bottom ,2->baseline ,3->center
   this.lineh = 14;
   this.txtStyle = 0; // 0->normal,1->italic,2->bold,3->boldItalic
@@ -107,7 +108,15 @@ function ui(ui_parent){
   }
   
   this.copy = function(){
-    return new ui(this).set_snap(0,0,1,1).snap().set_color(this.color);
+    return new ui(this).set_snap(0,0,1,1).snap().set_color(this.color).set_line_height(this.lineh).set_font_size(this.fontSize).set_text_color(this.txtCol).set_text_style(this.txtStyle);
+  }
+  
+  this.component = function(ui_parent){
+    if(ui_parent != null){
+    return new ui(ui_parent).set_snap(this.snaps[0],this.snaps[1],this.snaps[2],this.snaps[3]).set_color(this.color).set_line_height(this.lineh).set_font_size(this.fontSize).set_text_color(this.txtCol).set_text_style(this.txtStyle).set_stroke_color(this.stroke_color).set_str(this.str).set_no_edit(this.no_edit);
+    }else{
+      return new ui().setup([this.x,this.y,this.width,this.height]).set_line_height(this.lineh).set_font_size(this.fontSize).set_text_color(this.txtCol).set_text_style(this.txtStyle).set_stroke_color(this.stroke_color).set_str(this.str).set_no_edit(this.no_edit).set_color(this.color);
+    }
   }
   
   this.set_snap = function(a1,b1,a2,b2){
@@ -266,6 +275,17 @@ function ui(ui_parent){
     this.fontSize = a;
     return this;
   }
+  
+  this.get_text_width = function(){
+    textSize(this.fontSize);
+    return textWidth(this.str);
+  }
+  
+  this.set_no_edit = function(bool){
+    this.no_edit = bool;
+    return this;
+  }
+  
   this.draw = function(){
     if(this.p == null){
       
@@ -294,7 +314,9 @@ function ui(ui_parent){
       rect(this.x,this.y,this.width,this.height,this.tl_radius,this.tr_radius,this.bl_radius,this.br_radius);
       
       pop();
+      if(!this.no_edit){
       this.edit(this.str);
+      }
     }else{
       
       push();
@@ -321,7 +343,9 @@ function ui(ui_parent){
       
       rect(this.x,this.y,this.width,this.height,this.tl_radius,this.tr_radius,this.bl_radius,this.br_radius);
       pop();
+      if(!this.no_edit){
       this.edit(this.str);
+      }
       
     }
   }
