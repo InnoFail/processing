@@ -16,6 +16,7 @@
  - Miscellaneous
    * variables held by ui.js file
    * colors and themes in help.js file
+   * wonders of group.js
   - Examples
  - Summary
   
@@ -675,7 +676,13 @@ But reading them is fine.
  - l(color1,color2) ---> mixes two color
  ```javascript
  let h = new help();
- let c = lerp(h.grey_5,h.n_green);
+ let c = h.l(h.grey_5,h.n_green);
+ let u = new ui().set_color(c);
+```
+- alpha(colour1,value) ---> changes opacity of a color, value ranges from 0 to 1000;
+ ```javascript
+ let h = new help();
+ let c = h.alpha(h.grey_5,125);
  let u = new ui().set_color(c);
 ```
  - get_key() ---> returns key_code after key_is_released
@@ -719,6 +726,65 @@ But reading them is fine.
  - vb_red
  - vb_yellow
  
+ #### Wonders of group.js
+ - variables
+	 - ui ---> contains the current ui created by group(ui) function
+	 - childs ---> contains list of childs created directly by copy() function
+ - functions
+   - group(ui) ---> constructor
+   - copy() ---> functions that produces new child and adds an instance in childs list variable
+   - child(index) ---> returns child at that index
+- example
+```javascript
+let u,v,p,q,r,s,t,a,b;
+let t1,t2,t3;
+let h;
+let v_txt="abcdefghijklmnopqrstuvwxyz";
+let count = 0;
+
+function setup(){
+   createCanvas(400,300);
+  h = new help();
+  u = new group(new ui().set_color(h.n_red));
+  for(let i=0; i< 7;i++){
+    for(let j=2; j<6 ;j++){
+      let a=0,b=0;
+      let pp = u.ui.width;
+      let ph = u.ui.height;
+      u.copy();
+      u.child(count).ui.set_snap(1/8*i,1/6*j,1/8*(i+1),1/6*(j+1)).set_color(h.n_green).set_stroke_color(h.black).set_str(v_txt.charAt(count)).set_scroll(-u.child(count).ui.width/2,-u.child(count).ui.height/2);
+      count++;
+  }
+  }
+}
+
+
+function draw(){
+  u.ui.draw();
+  if(u.ui.focused()){
+      u.ui.set_color(h.alpha(h.n_red,225));
+    }else if(!u.ui.hovered()){
+      u.ui.set_color(h.n_red);
+    }
+  for(let i=0; i<count ;i++){
+    let vi = u.child(i).ui;
+    
+    if(vi.hovered()){
+      vi.set_color(h.n_blue);
+    }else if(!vi.hovered()){
+      vi.set_color(h.n_green);
+    }
+    if(vi.clicked()){
+      vi.set_color(h.n_sky_blue);
+    }else if(!vi.hovered() && !vi.clicked()){
+      vi.set_color(h.n_green);
+    }
+    vi.draw();
+  }
+}
+```
+
+
  
 ---------------------------------------------------------------------
 ### Examples
