@@ -53,6 +53,13 @@ function help(){
     return lerpColor(a,b,0.5);
   }
   
+  this.alpha = function(col,val){
+    let r = red(col);
+    let b = blue(col);
+    let g = green(col);
+    return lerpColor(col,color(val,val,val),0.1);
+  }
+  
   this.get_key = function(){
     let temp = key_code;
     key_code = "";
