@@ -1,8 +1,15 @@
-let key_code = "";
 
+   
+let key_code_1 = "",key_code_2 = "";
+
+
+function keyPressed(){
+  key_code_2 = key;
+}
 
 function keyReleased(){
-  key_code = key;
+  key_code_2 = "";
+  key_code_1 = key;
 }
 
 function help(){
@@ -49,8 +56,14 @@ function help(){
   this.vb_red = color(231,29,54);
   this.vb_yellow = color(231,213,76);
   
+  this.colors = [this.white,this.black,this.grey,this.grey_1,this.grey_2,this.grey_3,this.grey_4,this.grey_5,this.n_red,this.n_blue,this.n_light_blue,this.sky_blue,this.n_yellow,this.green,this.orange,this.violet,this.pink,this.dye_blue,this.dye_sky_blue,this.dye_violet,this.dye_dark_pink,this.dye_pink,this.dye_light_pink,this.brick_red,this.brick_blue,this.brick_dark_blue,this.brick_violet,this.brick_pink,this.vb_orange,this.vb_blue,this.vb_aqua,this.vb_red,this.vb_orange];
+  
   this.l = function(a,b){
     return lerpColor(a,b,0.5);
+  }
+  
+  this.random_colors = function(){
+    return this.colors[parseInt(random(this.colors.length))];
   }
   
   this.alpha = function(col,val){
@@ -61,9 +74,18 @@ function help(){
   }
   
   this.get_key = function(){
-    let temp = key_code;
-    key_code = "";
+    let temp = key_code_1;
+    key_code_1 = "";
     return temp;
+  }
+  
+  this.get_key_released = function(){
+    let temp = key_code_1;
+    key_code_1 = "";
+    return temp;
+  }
+  this.get_key_pressed = function(){
+    return key_code_2;
   }
   
   this.delx = function(){
