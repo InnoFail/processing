@@ -689,7 +689,8 @@ But reading them is fine.
  `let code = h.get_key();`
  - delx() ---> returns small change in mouse position_x while moving
  - dely() ---> returns small change in mouse position_y while moving
- 
+ - get_key_pressed() returns the key after pressed and before released, as long as key is pressed.
+ - get_key_released() is same as get_key() and returns same value
  The colors are:
  - clear
  - white
