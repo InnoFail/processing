@@ -110,8 +110,8 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
-- del_snap(delx1,dely1,delx2,dely2,stric)
----> delx1,dely1,delx2,dely2 affect the top-left and bottom-right corner of grid coordinate and values are in weight and stric can be ether true or false to determine if ui should be restricted to grow within parents.
+- del_snap(delx1,dely1,delx2,dely2,stricx,stricy)
+---> delx1,dely1,delx2,dely2 affect the top-left and bottom-right corner of grid coordinate and values are in weight and stricx and stricy can be ether true or false to determine if ui should be restricted to grow within parents.
 ```javascript
 let u,v;
 function setup(){
@@ -129,8 +129,8 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
-- del_snap_px(delx1,dely1,delx2,dely2,stric)
----> delx1,dely1,delx2,dely2 affect the top-left and bottom-right corner of grid coordinate and values are in pixel and stric can be ether true or false to determine if ui should be restricted to grow within parents.
+- del_snap_px(delx1,dely1,delx2,dely2,stricx,stricy)
+---> delx1,dely1,delx2,dely2 affect the top-left and bottom-right corner of grid coordinate and values are in pixel and stricx and stricy can be ether true or false to determine if ui should be restricted to grow within parents.
 ```javascript
 let u,v;
 function setup(){
@@ -140,7 +140,7 @@ function setup(){
 }
 function draw(){
 	if(v.clicked()){
-	v.del_snap_px(0,(mouseX-pmouseX),0,0,true);//mouseX and pmouseX are variables in p5
+	v.del_snap_px(0,(mouseX-pmouseX),0,0,true);//mouseX and pmouseX are variables in p5 and stricx is set to true to confine it in x axis within parent
 	}
 	u.set_str("Hello world");
 	u.draw();
@@ -685,7 +685,7 @@ But reading them is fine.
  let c = h.alpha(h.grey_5,125);
  let u = new ui().set_color(c);
 ```
- - get_key() ---> returns key_code after key_is_released
+ - get_key() ---> returns key_code after key is released
  `let code = h.get_key();`
  - delx() ---> returns small change in mouse position_x while moving
  - dely() ---> returns small change in mouse position_y while moving
@@ -737,7 +737,9 @@ But reading them is fine.
    - child(index) ---> returns child at that index
 - example
 ```javascript
+// making a keyboard and a slider
 let u,v,p,q,r,s,t,a,b;
+let slider, bar;
 let t1,t2,t3;
 let h;
 let v_txt="abcdefghijklmnopqrstuvwxyz";
@@ -757,11 +759,22 @@ function setup(){
       count++;
   }
   }
+  
+  slider = u.copy();
+  slider.ui.set_snap(0.95,0,1,1).set_color(h.white);
+  bar = slider.copy();
+  bar.ui.set_snap(0,0.1,1,0.2).set_color(h.grey);
 }
 
 
 function draw(){
+  if(bar.ui.clicked()){
+    bar.ui.del_snap_px(-h.delx(),-h.dely(),-h.delx(),-h.dely(),true,true);
+  }
+  
   u.ui.draw();
+  slider.ui.draw();
+  bar.ui.draw();
   if(u.ui.focused()){
       u.ui.set_color(h.alpha(h.n_red,225));
     }else if(!u.ui.hovered()){
@@ -783,6 +796,9 @@ function draw(){
     vi.draw();
   }
 }
+
+
+
 ```
 
 
@@ -857,8 +873,8 @@ function draw(){
 |7| c(r,g,b,a) | sets fill color in (red,green,blue,alpha) and all parameters ranges from 0 to 255 .|
 |8| copy() | without parameters produces a child of its own and returns the object |
 |9| set_snap(x1,y1,x2,y2) | (x1,y1) and (x2,y2) is the top left and bottom right coordinate of child in parents grid |
-|10| del_snap(delx1,dely1,delx2,dely2,stric) | changes the snap by adding del amount in weight of each and the stric parameter defines if the child exceeds the parent| 
-|11| del_snap_px(delx1,dely1,delx2,dely2,stric) | changes the snap by adding del amount in px rather than weight of each and the stric parameter defines if the child exceeds the parent| 
+|10| del_snap(delx1,dely1,delx2,dely2,stricx,stricy) | changes the snap by adding del amount in weight of each and the stricx and stricy parameter defines if the child exceeds the parent| 
+|11| del_snap_px(delx1,dely1,delx2,dely2,stricx,stricy) | changes the snap by adding del amount in px rather than weight of each and the stricx and stricy parameter defines if the child exceeds the parent| 
 |12| set_str(text) | sets text to be shown while displaying text in ui element |
 |13| set_angle(angle) | sets angle for rotation, where angle is in degrees |
 |14| coord() | returns the coordinates after applying rotations|
