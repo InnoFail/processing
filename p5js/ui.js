@@ -139,10 +139,41 @@ function ui(ui_parent){
     return this;
   }
   
-  this.del_snap = function(a1,b1,a2,b2,stric){
-    this.snaps = [this.snaps[0]+a1,this.snaps[1]+b1,this.snaps[2]+a2,this.snaps[3]+b2];
-    if(stric){
-      this.snaps = [constrain(this.snaps[0],0,this.p.n_row),constrain(this.snaps[1],0,this.p.n_col),constrain(this.snaps[2],0,this.p.n_row),constrain(this.snaps[3],0,this.p.n_col)];
+  this.del_snap = function(a1,b1,a2,b2,stricx,stricy){
+    
+    if(stricx || stricy){
+    let cx = constrain(this.snaps[0]+a1,0,this.p.n_row);
+    let cy = constrain(this.snaps[1]+b1,0,this.p.n_col);
+    let cw = constrain(this.snaps[2]+a2,0,this.p.n_row);
+    let ch = constrain(this.snaps[3]+b2,0,this.p.n_col);
+    //this.snaps = [this.snaps[0]+a1,this.snaps[1]+b1,this.snaps[2]+a2,this.snaps[3]+b2];
+    if(stricx && !stricy){
+      if(cx != 0 && cw != this.p.n_row){
+        this.snaps = [cx,this.snaps[1]+b1,cw,this.snaps[3]+b2];
+      }else{
+        this.snaps = [this.snaps[0],this.snaps[1]+b1,this.snaps[2],this.snaps[3]+b2];
+      }
+    }
+    if(stricy && !stricx){
+      if(cy != 0 && ch != this.p.n_col){
+        this.snaps = [this.snaps[0]+a1,cy,this.snaps[2]+a2,ch];
+      }else{
+        this.snaps = [this.snaps[0]+a1,this.snaps[1],this.snaps[2]+a2,this.snaps[3]];
+      }
+    }
+    if( stricx && stricy){
+      if(cy != 0 && ch != this.p.n_col && cx != 0 && cw != this.p.n_row){
+        this.snaps = [cx,cy,cw,ch];
+      }
+      if(cx != 0 && cw != this.p.n_row && !(cy != 0 && ch != this.p.n_col)){
+        this.snaps = [cx,this.snaps[1],cw,this.snaps[3]];
+      }else if(!(cx != 0 && cw != this.p.n_row) && (cy != 0 && ch != this.p.n_col)){
+        this.snaps = [this.snaps[0],cy,this.snaps[2],ch];
+      }
+    }
+    }
+    else{
+      this.snaps = [this.snaps[0]+a1,this.snaps[1]+b1,this.snaps[2]+a2,this.snaps[3]+b2];
     }
     if(this.p !=null){
       this.snap();
@@ -150,13 +181,13 @@ function ui(ui_parent){
     return this;
   }
   
-  this.del_snap_px = function(a1,b1,a2,b2,stric){
+  this.del_snap_px = function(a1,b1,a2,b2,stricx,stricy){
     if(this.p != null && this.p.width > 1 && this.p.height > 1){
       let px = a1/this.p.width*this.p.n_row;
       let py = b1/this.p.height*this.p.n_col;
       let qx = a2/this.p.width*this.p.n_row;
       let qy = b2/this.p.height*this.p.n_col;
-      this.del_snap(px,py,qx,qy,stric);
+      this.del_snap(px,py,qx,qy,stricx,stricy);
     }
     return this;
   }
@@ -353,8 +384,8 @@ function ui(ui_parent){
   this.repos = function(delx,dely,delw,delh){
       this.x += delx;
       this.y += dely;
-      this.w += delw;
-      this.h += delh;
+      this.width += delw;
+      this.height += delh;
       return this;
   }
   
