@@ -20,6 +20,6 @@
     <script src="ui.js"></script>
     <script src="group.js"></script>
     <script src="help.js"></script>
-    <script src="sketch.js"></script>
+    <script src="editor_3.js"></script>
   </body>
 </html>
