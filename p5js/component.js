@@ -48,8 +48,13 @@ function button(text,u){
 
     this.button = this.parent.copy();
     this.button.copy();
-    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0]).c(255,255,255);
+    this.button.child(0).ui.c(255,255,255);
+  
+  this.create = function(){
+    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0])
     this.button.ui.set_snap_px(0,0,this.button.child(0).ui.get_text_width()+this.padx[0]+this.padx[1],this.button.child(0).ui.lineh+this.pady[0]+this.pady[1]).c(255,255,255);
+  }
+  this.create();
       this.button.copy();
     
   
@@ -79,12 +84,16 @@ function div(text,u){
 
   this.button = this.parent.copy();
   this.button.copy();
-  this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0]).c(255,255,255);
+  this.button.child(0).ui.c(255,255,255);
+  
+  this.create = function(){
+    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0])
     this.button.ui.set_snap_px(0,0,this.button.child(0).ui.get_text_width()+this.padx[0]+this.padx[1],this.button.child(0).ui.lineh+this.pady[0]+this.pady[1]).c(255,255,255);
+  
+  
+  }
+  this.create();
   this.button.copy();
-  
-  
-  
   
   this.shadow = function(a,b,c,d,col){
     let p = this.button.child(1).ui;
