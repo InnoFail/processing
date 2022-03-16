@@ -11,6 +11,16 @@ function world(){
   this.rot = 0;
   this.layer = {"start":0,"__camera__":0};
   
+  
+  this.get = function(id){
+    let p = string(id);
+    if(p == undefined || p == null){
+      console.log("The key is provided null or undefined");
+      return;
+    }
+    return this.surrounding[p];
+  }
+  
   this.add_camera_component = function(c,l){
     if(this.camera.length < 1){
     this.camera.push(c);
@@ -147,7 +157,13 @@ function world(){
       p[val].push(value);
     });
     for(let i=0; i<p.length ; i++){
+      if(p[i] == undefined || p[i] == null){
+          continue;
+        }
       for(let j=0; j<p[i].length;j++){
+        if(p[i][j] == undefined || p[i][j] == null){
+          continue;
+        }
         if(p[i][j] != "__camera__"){
           let obj = that.surrounding[p[i][j]];
           obj.draw();
@@ -162,6 +178,34 @@ function world(){
   }
 }
 
+function behaviour(comp){
+  //expects component object in comp and behaviour object in other
+  this.comp = comp;
+  this.mass = 1;
+  this.e = 1;
+  
+  this.change = function(mass,e){
+    this.mass = mass >= 0 ? mass : this.mass;
+    this.e = e >= 0 ? e : this.e;
+    return this;
+  }
+  
+  this.velocity = function(other){
+    let u1 = this.comp.velo;
+    let u2 = other.comp.velo;
+    let e_mean = (this.e+other.e)/2;
+    if(this.mass !=0){
+      let p1 = other.mass/this.mass+1;
+      let p2 = p5.Vector.sub(u2,u1).mult(-this.e);
+      let p3 = p5.Vector.add(createVector(u1.x,u1.y).mult(this.mass),createVector(u2.x,u2.y).mult(other.mass)).mult(1/this.mass);
+    let v2 = p5.Vector.add(p2,p3).mult(1/p1);
+    let v1 = p5.Vector.sub(v2,p2);
+    this.comp.velocity(v1.x,v1.y);
+    other.comp.velocity(v2.x,v2.y);
+    }
+  }
+}
+
 
 
 
@@ -172,6 +216,7 @@ function component(){
   this.rot_shapes = {"start":0};
   this.angle_rot = 0;
   this.translate = createVector(0,0);
+  this.velo = createVector(0,0);
   
   this.get = function(id){
     let p = string(id);
@@ -320,6 +365,16 @@ function component(){
     return this;
   }
   
+  this.velocity = function(a,b){
+    this.velo = createVector(a,b);
+    return this;
+  }
+  
+  this.del_velocity = function(a,b){
+    this.velo.add(a,b);
+    return this;
+  }
+  
   this.draw = function(){
     let list = Object.keys(this.shapes);
     list = list.filter(function(value){
@@ -347,6 +402,7 @@ function component(){
       that.pos_shapes[key] = p5.Vector.add(p,q);
     });
       pop();
+    this.del_move(this.velo.x,this.velo.y);
   }
   
   this.collision = function(other){
