@@ -435,7 +435,7 @@ function draw_rect(){
   this.height = 50;
   this.colli_r = this.width;
   this.max_val = 3;
-  this.color = color(255,255,255);
+  this.col = color(255,255,255);
   this.stroke_color = color(255,255,255);
   this.str = "";
   this.text_size = 12;
@@ -462,7 +462,7 @@ function draw_rect(){
   }
   
   this.set_color = function(a){
-    this.color = a;
+    this.col = a;
     return this;
   }
   
@@ -499,7 +499,7 @@ function draw_rect(){
   }
   
   this.draw = function(){
-    fill(this.color);
+    fill(this.col);
     stroke(this.stroke_color);
     rect(this.x,this.y,this.width,this.height);
     fill(this.text_color);
