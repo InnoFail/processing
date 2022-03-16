@@ -71,15 +71,16 @@ function character(str,size,colors_in_list){
 }
 
 
-function level_editor(str,sprite_size,list_of_components){
-  let trimmed = str.trim();
-  let lists = trimmed.split(",");
+function level_editor(str_list,sprite_size,list_of_components){
+  let k = 0;
   let comp = new world();
+  str_list.forEach(function(stri,index1){
+  let trimmed = stri.trim();
+  let lists = trimmed.split(",");
   lists.forEach(function(value,index){
     lists[index] = value.trim();
   });
   let y_val = lists.length;
-  let k = 0;
   let max_x = 0;
   lists.forEach(function(value,index){
     let x_val = value.length;
@@ -88,13 +89,19 @@ function level_editor(str,sprite_size,list_of_components){
       if(value[i] != " "){
         let p = list_of_components[parseInt(value[i])].copy();
         p.move(i*sprite_size,index*sprite_size);
-        comp.add_other(k,p);
+        comp.add_other(k,p,index1);
         k++;
       }
     }
   });
+    
+  });
   
   return comp;
 }
+
+
+
+
 
 
