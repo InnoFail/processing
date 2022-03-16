@@ -9,16 +9,18 @@ function world(){
   this.surrounding = {"start":null};
   this.camera_pos = createVector(0,0);
   this.rot = 0;
+  this.layer = {"start":0,"__camera__":0};
   
-  this.add_camera_component = function(c){
+  this.add_camera_component = function(c,l){
     if(this.camera.length < 1){
     this.camera.push(c);
     }
     this.camera[0].del_move(width/2,height/2);
+    this.layer.__camera__ = l || 0;
     return this;
   }
   
-  this.add_other = function(id,c){
+  this.add_other = function(id,c,l){
     let p = string(id);
     if(p == undefined || p == null){
       console.log("The key is provided null or undefined");
@@ -26,6 +28,7 @@ function world(){
     }
     this.surrounding[p] = c;
     this.surrounding[p].del_move(width/2,height/2);
+    this.layer[p] = l || 0 ;
     return this;
   }
   
@@ -122,20 +125,40 @@ function world(){
   this.draw = function(){
     let that = this;
     
-    if(this.camera.length > 0){
-      
-      this.camera[0].draw();
-    }
+    
     let list = Object.keys(this.surrounding);
     list = list.filter(function(value){
       if(value != "start"){
         return value;
       }
     });
-    list.forEach(function(objs){
-      let obj = that.surrounding[objs];
-      obj.draw();
+    let p = [];
+    let list1 = Object.keys(this.layer);
+    list1 = list1.filter(function(value){
+      if(value != "start"){
+        return value;
+      }
     });
+    list1.forEach(function(value,index){
+      let val = that.layer[value];
+      if(p[val] == undefined || p[val] == null){
+        p[val] = [];
+      }
+      p[val].push(value);
+    });
+    for(let i=0; i<p.length ; i++){
+      for(let j=0; j<p[i].length;j++){
+        if(p[i][j] != "__camera__"){
+          let obj = that.surrounding[p[i][j]];
+          obj.draw();
+        }else if( p[i][j] == "__camera__"){
+          if(this.camera.length > 0){
+            this.camera[0].draw();
+          }
+        }
+      }
+    }
+    
   }
 }
 
@@ -378,6 +401,30 @@ function component(){
     return final_answer || false;
   }
   
+  this.copy = function(){
+    let p = new component();
+    let that = this;
+    let list1 = Object.keys(this.shapes);
+    list1 = list1.filter(function(value){
+      if(value != "start"){
+        return value;
+      }
+    });
+    list1.forEach(function(key){
+      let p1 = that.pos_shapes[key];
+      let s1 = that.shapes[key];
+      let q1 = that.vel_shapes[key];
+      let r1 = that.rot_shapes[key];
+      let t1 = that.translate;
+      p.add(key,s1);
+      p.pos(key,p1.x,p1.y);
+      p.vel(key,q1.x,q1.y);
+      p.angle(key,r1);
+      p.rot(that.angle_rot);
+      });
+    return p;
+  }
+  
   
 }
 
@@ -533,6 +580,19 @@ function draw_rect(){
       return true;
     }
     return false;
+  }
+  
+  this.copy = function(){
+    let p = new draw_rect();
+    p.size(this.width,this.height);
+    p.pos(this.x,this.y);
+    p.set_color(this.color);
+    p.set_stroke_color(this.stroke_color);
+    p.set_text_color(this.text_color);
+    p.set_str(this.str);
+    p.resize_text(this.text_x,this.text_y,this.text_width,this.text_height,this.text_size);
+    p.colli_r = this.colli_r;
+    return p;
   }
   
 }
