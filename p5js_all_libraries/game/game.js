@@ -50,13 +50,13 @@ function world(){
     });
     list.forEach(function(objs){
       let obj = that.surrounding[objs];
-      obj.del_mov(this.camera_pos.x,this.camera_pos.y);
+      obj.del_move(that.camera_pos.x,that.camera_pos.y);
     });
     this.camera_pos = createVector(a,b);
     
     list.forEach(function(objs){
       let obj = that.surrounding[objs];
-      obj.del_move(-this.camera_pos.x,-this.camera_pos.y);
+      obj.del_move(-that.camera_pos.x,-that.camera_pos.y);
     });
     
     return this;
@@ -75,6 +75,28 @@ function world(){
       let obj = that.surrounding[objs];
       obj.del_move(-a,-b);
     });
+    return this;
+  }
+  
+  
+  this.angle = function(angle){
+    let that = this;
+    let p1 = this.camera[0];
+    let list = Object.keys(this.surrounding);
+    list = list.filter(function(value){
+      if(value != "start"){
+        return value;
+      }
+    });
+    list.forEach(function(objs){
+      let p2 = that.surrounding[objs];
+      let p3 = p5.Vector.sub(p2.translate,p1.translate);
+      p3.rotate(-that.rot*PI/180);
+      p3.rotate(angle*PI/180);
+      p2.move(p3.x+p1.translate.x,p3.y+p1.translate.y);
+    });
+    
+    this.rot = angle;
     return this;
   }
   
@@ -146,6 +168,7 @@ function component(){
     this.shapes[p] = shape;
     this.pos_shapes[p] = createVector(0,0);
     this.vel_shapes[p] = createVector(0,0);
+    this.rot_shapes[p] = 0;
     return this;
   }
   
@@ -363,7 +386,7 @@ function draw_rect(){
   this.y = 0;
   this.width = 50;
   this.height = 50;
-  this.colli_r = this.width/2;
+  this.colli_r = this.width;
   this.max_val = 3;
   this.color = color(255,255,255);
   this.stroke_color = color(255,255,255);
@@ -378,7 +401,7 @@ function draw_rect(){
   this.size = function(a,b){
     this.width = a;
     this.height = b;
-    this.colli_r = this.width >= this.height ? this.width/2 : this.height/2;
+    this.colli_r = this.width >= this.height ? this.width : this.height;
     if(this.height > this.max_val*this.width || this.height*this.max_val < this.width){
       this.colli_r = -1;
     }
