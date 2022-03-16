@@ -51,12 +51,14 @@ function character(str,size,colors_in_list){
     let x_val = value.length;
     max_x = max_x < x_val ? x_val : max_x;
     for(let i=0 ; i< x_val ; i++){
+      if(value[i] != " "){
       comp.add(k,new draw_rect());
       comp.get(k)[0].size(size,size);
       comp.pos(k,i*size,index*size);
       comp.get(k)[0].set_color(colors_in_list[parseInt(value[i])]);
       
       k++;
+      }
     }
   });
   
@@ -67,3 +69,32 @@ function character(str,size,colors_in_list){
   return comp;
   
 }
+
+
+function level_editor(str,sprite_size,list_of_components){
+  let trimmed = str.trim();
+  let lists = trimmed.split(",");
+  let comp = new world();
+  lists.forEach(function(value,index){
+    lists[index] = value.trim();
+  });
+  let y_val = lists.length;
+  let k = 0;
+  let max_x = 0;
+  lists.forEach(function(value,index){
+    let x_val = value.length;
+    max_x = max_x < x_val ? x_val : max_x;
+    for(let i=0 ; i< x_val ; i++){
+      if(value[i] != " "){
+        let p = list_of_components[parseInt(value[i])].copy();
+        p.move(i*sprite_size,index*sprite_size);
+        comp.add_other(k,p);
+        k++;
+      }
+    }
+  });
+  
+  return comp;
+}
+
+
