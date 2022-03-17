@@ -55,7 +55,7 @@ function help(){
   this.vb_red = color(231,29,54);
   this.vb_yellow = color(231,213,76);
   
-  this.colors = [this.white,this.black,this.grey,this.grey_1,this.grey_2,this.grey_3,this.grey_4,this.grey_5,this.n_red,this.n_blue,this.n_light_blue,this.sky_blue,this.n_yellow,this.dye_green,this.dye_orange,this.dye_violet,this.dye_pink,this.dye_blue,this.dye_sky_blue,this.dye_violet,this.dye_dark_pink,this.dye_pink,this.dye_light_pink,this.brick_red,this.brick_blue,this.brick_dark_blue,this.brick_violet,this.brick_pink,this.vb_orange,this.vb_blue,this.vb_aqua,this.vb_red,this.vb_orange];
+  this.colors = [this.white,this.black,this.grey,this.grey_1,this.grey_2,this.grey_3,this.grey_4,this.grey_5,this.n_red,this.n_blue,this.n_light_blue,this.sky_blue,this.n_yellow,this.n_green,this.n_orange,this.n_violet,this.n_pink,this.dye_blue,this.dye_sky_blue,this.dye_violet,this.dye_dark_pink,this.dye_pink,this.dye_light_pink,this.brick_red,this.brick_blue,this.brick_dark_blue,this.brick_violet,this.brick_pink,this.vb_orange,this.vb_blue,this.vb_aqua,this.vb_red,this.vb_orange];
   
   this.l = function(a,b){
     return lerpColor(a,b,0.5);
