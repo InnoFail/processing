@@ -51,7 +51,7 @@ function button(text,u){
     this.button.child(0).ui.c(255,255,255);
   
   this.create = function(){
-    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0])
+    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0]);
     this.button.ui.set_snap_px(0,0,this.button.child(0).ui.get_text_width()+this.padx[0]+this.padx[1],this.button.child(0).ui.lineh+this.pady[0]+this.pady[1]).c(255,255,255);
   }
   this.create();
@@ -87,7 +87,7 @@ function div(text,u){
   this.button.child(0).ui.c(255,255,255);
   
   this.create = function(){
-    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0])
+    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0]);
     this.button.ui.set_snap_px(0,0,this.button.child(0).ui.get_text_width()+this.padx[0]+this.padx[1],this.button.child(0).ui.lineh+this.pady[0]+this.pady[1]).c(255,255,255);
   
   
@@ -116,26 +116,35 @@ function list(number,u_list,u){
   this.u_list = u_list;
   this.n = number;
   this.count = 0;
+  this.happened = false;
   
   this.change = function(count,vert){
     this.count = count;
-    let k = 0;
-    for(let i=this.count; i<this.n + this.count; i++){
+    
+      let x = this.list.ui.x,y=this.list.ui.y;
+    let mm = (this.happened == false)?this.u_list.length:this.n + this.count;
+    let k = this.count;
+    for(let i=this.happened?this.count:0; i< mm; i++){
+    if(!this.happened){
     this.list.add_child(u_list[i]);
-    let p = i != this.count ? this.list.child(k-1).ui : this.list.ui;
+      }
+      
     let q = this.list.child(k).ui;
       if(vert != true){
-    q.set_snap_px(p.x,p.y+p.height,p.x+q.width,p.y+p.height+q.height);
+    q.set_snap_px(x,y,x+q.width,q.height+y);
+        y += q.height;
       }else{
-        q.set_snap_px(p.x+p.width,p.y,p.x+p.width+q.width,p.y+q.height);
+        q.set_snap_px(x,y,x+q.width,y+q.height);
+        x += q.width;
       }
       k++;
   }
+    this.happened = true;
   }
   
   this.draw = function(){
     
-    for(let i=0; i<this.n; i++){
+    for(let i=this.count; i<this.n+this.count; i++){
     this.list.child(i).ui.draw();
   }
   }
