@@ -1,56 +1,30 @@
-let p,s,u,v,t,w,ppp=0;
+
+
+let c1,c2,c3;
+let w;
+let t;
+let h;
 
 function setup() {
   createCanvas(400, 400);
-  u = new component();
-  u.add(0,new draw_rect());
-  u.add(1,new draw_rect());
-  u.get(0)[0].set_str("wow i am so damn good at these thing that i can't even imagine to say aye");
-  u.del_move(50,20);
-  u.get(1)[0].set_color(color(255,0,255));
-  u.pos(1,10,10);
-  v = new component();
-  v.add(0,new draw_rect());
-  t = new component();
-  t.add(0,new draw_rect());
-  t.get(0)[0].size(1,1).colli_r = 200;
-  w = new world();
-  w.add_camera_component(v,1);
-  p = u.copy();
-  p.del_move(50,50);
-  w.add_other(0,p,0);
-  w.add_other(2,u,0);
-  let list = [color(255,0,0),color(0,255,0),color(0,0,255)];
-  s = character("001001,010120,21201",15,list);
-  w.add_other(1,s,2);
+  frameRate(30);
+  ele = new element(100);
+  h = new help();
+  c1 = sprite_editor([[0,0,0,0],[1,0,0,1],[0,0,0,0],[0,1,1,0]],[h.n_red,h.n_blue],50/4);
+  c2 = new component();
+  c2.add(0,0,50,50);
+  c2.del_vel(1,1);
+  c2.move(width/2,height/2);
+  w = world_editor([[0,1,0],[1,1,1],[0,1,0]],[c1,c2],0,50);
+  t = sprite_editor([[0,1,0],[1,1,1],[0,1,0]],[h.n_blue,h.n_yellow],5);
+  
 }
 
 function draw() {
-  background(0);
-  if(v.collision(s)){
-    v.get(0)[0].set_color(color(255,0,0));
-  }else{
-    v.get(0)[0].set_color(color(0,255,0));
-  }
-  t.move(mouseX,mouseY);
-   if(mouseIsPressed && t.collision(s)){
-     s.del_move(mouseX-pmouseX,mouseY-pmouseY);
-     s.get(0)[0].set_color(color(255,255,0));
-   }else{
-     s.get(0)[0].set_color(color(255,255,255));
-   }
-  w.pos(forward,up);
-  //w.del_pos(sin(ppp)*3,0);
-  w.del_angle(0.1);
+  background(220);
+  w.move(-forward,-up);
+  c2.move(-forward,-up);
+  t.move(mouseX-t.center[0],mouseY-t.center[1]);
   w.draw();
-  
-  ppp++;
-  if(ppp > width){
-    ppp = 0;
-  }
-  p.draw();
   t.draw();
-  controls();
 }
-
-
