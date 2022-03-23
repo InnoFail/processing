@@ -11,12 +11,23 @@ function world_editor(json,tile){ //don't be confused , both are json files
   this.editor_colors = [];
   this.editor_size = 10;
   this.max_size = 20;
+  this.x_off = 0;
+  this.y_off = 0;
   this.h = new help();
   this.u = new group(new ui().set_color(this.h.brick_pink).grid(10,10));
   
   this.download = new button("Download",this.u);
   this.download.button.ui.set_snap(5,8.5,5+this.download.button.ui.snaps[2],8.5+this.download.button.ui.snaps[3]);
   this.u.add_child(this.download.button);
+  
+  this.u.copy();
+  this.u.copy();
+  this.u.child(2).ui.set_snap(1,8.5,2,9).set_str("<");
+  this.u.child(3).ui.set_snap(4,8.5,5,9).set_str(">");
+  this.u.copy();
+  this.u.copy();
+  this.u.child(4).ui.set_snap(2.5,8,3.5,8.5).set_str("up");
+  this.u.child(5).ui.set_snap(2.5,9,3.5,9.5).set_str("down");
   
   this.sprite_place = this.u.copy();
   this.sprite_place.ui.set_snap(8,0,10,2*this.keys.length).set_color(this.h.n_green);
@@ -58,6 +69,34 @@ function world_editor(json,tile){ //don't be confused , both are json files
   
   this.draw = function(){
     this.u.ui.draw();
+    this.u.child(2).ui.draw();
+    this.u.child(3).ui.draw();
+    if(this.u.child(2).ui.clicked()){
+      this.u.child(2).ui.set_stroke_color(this.h.black);
+      this.y_off-=0.1;
+    }else{
+      this.u.child(2).ui.set_stroke_color(this.h.clear);
+    }
+    if(this.u.child(3).ui.clicked()){
+      this.u.child(3).ui.set_stroke_color(this.h.black);
+      this.y_off+=0.1;
+    }else{
+      this.u.child(3).ui.set_stroke_color(this.h.clear);
+    }
+    this.u.child(4).ui.draw();
+    this.u.child(5).ui.draw();
+    if(this.u.child(4).ui.clicked()){
+      this.u.child(4).ui.set_stroke_color(this.h.black);
+      this.x_off-=0.1;
+    }else{
+      this.u.child(4).ui.set_stroke_color(this.h.clear);
+    }
+    if(this.u.child(5).ui.clicked()){
+      this.u.child(5).ui.set_stroke_color(this.h.black);
+      this.x_off+=0.1;
+    }else{
+      this.u.child(5).ui.set_stroke_color(this.h.clear);
+    }
     this.download.draw();
     if(this.download.button.child(0).ui.clicked()){
       this.download.shadow(0,0,0,0,this.h.grey_1);
@@ -123,14 +162,22 @@ function world_editor(json,tile){ //don't be confused , both are json files
   this.world_sprite = function(){
     let obj = this.tile.str;
     let that = this;
-    if(this.editor_size > this.max_size){
+    if(this.editor_size+this.x_off > this.max_size || this.x_off < 0 || this.editor_size+this.y_off > this.max_size || this.y_off < 0){
+      this.x_off = 0;
+      this.y_off = 0;
       console.log("Error:sprite size is larger than 10.");
       return;
     }
+    for(let i=0; i<this.max_size ; i++){
+    for(let j=0; j<this.max_size ; j++){
+      this.main_editor.child(i*this.max_size+j).ui.set_stroke_color(this.h.grey_3).set_color(this.h.white);
+    }
+  }
     this.main_editor.ui.grid(this.editor_size,this.editor_size);
     obj.forEach((val,i)=>{
-      that.main_editor.child(that.selected_pos[val[0]][val[1]]).ui.set_color(that.editor_colors[val[2]]);
+      that.main_editor.child(that.selected_pos[val[0]+parseInt(this.x_off)][val[1]+parseInt(this.y_off)]).ui.set_color(that.editor_colors[val[2]]);
     });
+    
   }
   
   
