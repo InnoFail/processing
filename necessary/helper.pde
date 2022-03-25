@@ -5,7 +5,8 @@ class helper{
  String s;
  ui u;
  color v,i,b,g,y,o,r,t,w;
- color clear,white,black,grey,grey_1,grey_2,grey_3,grey_4,grey_5,n_red,n_blue,n_light_blue,sky_blue,n_yellow,n_green,n_orange,n_violet,n_pink,dye_blue,dye_sky_blue,dye_violet,dye_dark_pink,dye_pink,dye_light_pink,brick_red,brick_blue,brick_dark_blue,brick_violet,brick_pink,vb_orange,vb_blue,vb_aqua,vb_red,vb_orange;
+ color clear,white,black,grey,grey_1,grey_2,grey_3,grey_4,grey_5,n_red,n_blue,n_light_blue,n_sky_blue,n_yellow,n_green,n_orange,n_violet,n_pink,dye_blue,dye_sky_blue,dye_violet,dye_dark_pink,dye_pink,dye_light_pink,brick_red,brick_blue,brick_dark_blue,brick_violet,brick_pink,vb_blue,vb_aqua,vb_red,vb_orange,vb_yellow;
+ color[] colors;
 
  boolean vert,hor;
   
@@ -76,8 +77,8 @@ class helper{
   this.vb_red = color(231,29,54);
   this.vb_yellow = color(231,213,76);
   
-  this.colors = [this.white,this.black,this.grey,this.grey_1,this.grey_2,this.grey_3,this.grey_4,this.grey_5,this.n_red,this.n_blue,this.n_light_blue,this.sky_blue,this.n_yellow,this.n_green,this.n_orange,this.n_violet,this.n_pink,this.dye_blue,this.dye_sky_blue,this.dye_violet,this.dye_dark_pink,this.dye_pink,this.dye_light_pink,this.brick_red,this.brick_blue,this.brick_dark_blue,this.brick_violet,this.brick_pink,this.vb_orange,this.vb_blue,this.vb_aqua,this.vb_red,this.vb_orange];
-  
+ this.colors = new color[]{this.white,this.black,this.grey,this.grey_1,this.grey_2,this.grey_3,this.grey_4,this.grey_5,this.n_red,this.n_blue,this.n_light_blue,this.n_sky_blue,this.n_yellow,this.n_green,this.n_orange,this.n_violet,this.n_pink,this.dye_blue,this.dye_sky_blue,this.dye_violet,this.dye_dark_pink,this.dye_pink,this.dye_light_pink,this.brick_red,this.brick_blue,this.brick_dark_blue,this.brick_violet,this.brick_pink,this.vb_yellow,this.vb_blue,this.vb_aqua,this.vb_red,this.vb_orange};
+   
  
 	
     this.vert=true;
