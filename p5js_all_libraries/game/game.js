@@ -73,6 +73,44 @@ function world(){
   
 }
 
+function behaviour(comp){
+  this.mass = 10;
+  this.e = 1;
+  this.comp = comp;
+  
+  this.set_mass = function(m){
+    if(m <= 0.0000000001){
+      this.mass = 0.0000000001;
+    }else{
+      this.mass = m;
+    }
+  }
+  
+  this.set_e = function(e){
+    if(e>1 || e<0){
+      return;
+    }else{
+      this.e = e;
+    }
+  }
+  
+  this.final_vel = function(other){ //other is a behaviour
+    let e_mean = (this.e+other.e)/2;
+    let u1x = this.comp.vel[0];
+    let u1y = this.comp.vel[1];
+    let u2x = other.comp.vel[0];
+    let u2y = other.comp.vel[1];
+    let v2x = (-e_mean*(u2x-u1x)+(this.mass*u1x+other.mass*u2x)/this.mass)/(1+other.mass/this.mass);
+    let v2y = (-e_mean*(u2y-u1y)+(this.mass*u1y+other.mass*u2y)/this.mass)/(1+other.mass/this.mass);
+    let v1x = v2x + e_mean*(u2x-u1x);
+    let v1y = v2y + e_mean*(u2y-u1y);
+    this.comp.vel[0] = v1x;
+    this.comp.vel[1] = v1y;
+    other.comp.vel[0] = v2x;
+    other.comp.vel[1] = v2y;
+  }
+}
+
 function component(){
   this.shapes = [];
   this.vel = [0,0];
@@ -165,10 +203,10 @@ function component(){
   }
   
   this.isInside = function(){
-    let p1 = this.center[0] + this.radius;
-    let p2 = this.center[1] + this.radius;
-    let q1 = this.center[0] - this.radius;
-    let q2 = this.center[1] - this.radius;
+    let p1 = this.center[0] + this.radius/2;
+    let p2 = this.center[1] + this.radius/2;
+    let q1 = this.center[0] - this.radius/2;
+    let q2 = this.center[1] - this.radius/2;
     if((p1<width*5/4 && p2<height*5/4) && (q1>-width*1/4 && q2>-height*1/4) && (q1>-width*1/4 && p2<height*5/4) && (p1<width*5/4 && q2>-height*1/4)){
       return true;
     }
