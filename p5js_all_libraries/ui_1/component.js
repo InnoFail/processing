@@ -14,6 +14,9 @@ function editor(u){
   
   this.draw = function(){
     if(this.editor.ui.focused()){
+      if(this.editor.ui.clicked()){
+        this.editor.ui.set_scroll(this.editor.ui.scrollx - mouseX+pmouseX,this.editor.ui.scrolly - mouseY+pmouseY);
+      }
     if(this.key_passed == "Shift"){
       
     }else if(this.key_passed == "CapsLock"){
