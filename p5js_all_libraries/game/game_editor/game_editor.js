@@ -111,15 +111,19 @@ function world_editor(json,tile){ //don't be confused , both are json files
         for(let j=0; j<this.editor_size ; j++){
           this.main_editor.child(this.selected_pos[i][j]).ui.draw();
           if(this.main_editor.child(this.selected_pos[i][j]).ui.clicked()){
+            let not_ = false;
             for(let k=0 ; k<this.tile.str.length; k++){
               if( i == this.tile.str[k][0] && j == this.tile.str[k][1]){
                 this.tile.str[k][2] = this.selected_sprite;
+                not_ = true;
               }
             }
+            if(!not_){
           this.tile.str.push([]);
             this.tile.str[this.tile.str.length-1][0] = i;
             this.tile.str[this.tile.str.length-1][1] = j;
           this.tile.str[this.tile.str.length-1][2] = this.selected_sprite;
+            }
           }
         }
       }
