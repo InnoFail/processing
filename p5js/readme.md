@@ -1,5 +1,5 @@
 # Simple And Elegent UI
-***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. Fortunately , it supports all the rotations and translations, but after rotations the point_in algorithm doesnot work on ui childs(created by copy()), that is, clicked , hovered, focused functions stops working for rotated ui's child only works on parent. But all rotations and translations can be used for decorations.
+***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. Fortunately , it supports all the rotations and translations, but after rotations the point_in algorithm doesnot work on ui childs(created by copy()), that is, clicked , hovered, focused functions stops working for rotated ui's child only works on parent, even if the rotations are applied on any child. But all rotations and translations can be used for decorations.
   
 ### ***Topics***
 - Constructors
@@ -165,7 +165,7 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
--  set_angle(angle)
+-  set_angle(angle) // (__deprected__)
 ---> angle is in degrees and is clockwise
 ```javascript
 let u,v;
@@ -934,7 +934,7 @@ function draw(){
 |10| del_snap(delx1,dely1,delx2,dely2,stricx,stricy) | changes the snap by adding del amount in weight of each and the stricx and stricy parameter defines if the child exceeds the parent| 
 |11| del_snap_px(delx1,dely1,delx2,dely2,stricx,stricy) | changes the snap by adding del amount in px rather than weight of each and the stricx and stricy parameter defines if the child exceeds the parent| 
 |12| set_str(text) | sets text to be shown while displaying text in ui element |
-|13| set_angle(angle) | sets angle for rotation, where angle is in degrees |
+|13| set_angle(angle) //(__deprected__) | sets angle for rotation, where angle is in degrees,  |
 |14| coord() | returns the coordinates after applying rotations|
 |15| set_clip(clipped) | boolean value clipped if set true will clip any text content outside the rectangular box|
 |16| draw() | without parameters and should be called every time a ui is drawn |
