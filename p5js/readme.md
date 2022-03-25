@@ -805,16 +805,18 @@ function draw(){
 
  #### Wonders of component.js
   Functions:
-	  ---> slider(min,max,vert,ui) = ui belongs to group object in group.js ,has variables : --- parent,vert,slider,bar and functions are draw() and get_value(). Note parent,slider and bar are group objects
-      ---> button(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,padx,pady,button,shadow and functions are draw() shadow(a,b,c,d,colour), and create(). Note parent,button and shadow are group objects
-      ---> div(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,padx,pady,button,shadow and functions are draw() shadow(a,b,c,d,colour), and create(). Note parent,button and shadow are group objects. Difference between div and button is shadow in div works on shadow variable while shadow on button works on button variable.
-      --->list(number,ui_list,u) = ui belongs to group object in group.js ,has variables : --- parent, list,n,u_list,count and functions draw(),change(count_number,vert)
+- slider(min,max,vert,ui) = ui belongs to group object in group.js ,has variables : --- parent,vert,slider,bar and functions are draw() and get_value(). Note parent,slider and bar are group objects
+ - button(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,padx,pady,button,shadow and functions are draw() shadow(a,b,c,d,colour), and create(). Note parent,button and shadow are group objects
+- div(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,padx,pady,button,shadow and functions are draw() shadow(a,b,c,d,colour), and create(). Note parent,button and shadow are group objects. Difference between div and button is shadow in div works on shadow variable while shadow on button works on button variable.
+ - list(number,ui_list,u) = ui belongs to group object in group.js ,has variables : --- parent, list,n,u_list,count and functions draw(),change(count_number,vert)
+- editor(ui) =  ui belongs to group object in group.js ,has variables : --- parent, list,n,u_list,count and functions draw(),get_str()
 	--Example
 ```javascript
-	let u,v,s,t,w;
+let u,v,s,t,w,l;
 let n=10,m = 10;
 let h;
 let u_str = ";You ;can ;say ;so ;as.";
+let ed;
 
 
 function setup(){
@@ -825,6 +827,7 @@ function setup(){
   u.ui.grid(50,50);
   v = new slider(0,100,false,u);
   v.slider.ui.set_snap(0,46,50,50);
+  v.bar.ui.set_str("Slide me");
   u.copy();
   u.child(1).ui.set_snap(0,40,5,46).set_color(h.n_yellow);
   s = new button("Button",u);
@@ -836,7 +839,12 @@ function setup(){
   u.copy().ui.set_color(h.white).set_snap(0,0,5,2).set_str("hello3");
   t = new list(2,[u.child(3),u.child(4),u.child(5)],u);
   t.list.ui.set_snap(10,10,10,10);
-  t.change(1,true);
+  t.change(0,true);
+  l = new ui().setup([100,100,100,60]).set_color(h.white).set_str("Hello I am so exhausted right now that i can,t even say now than all done i can freely").set_scroll(30,30);
+  l.set_clip(true);
+  l.set_text_color(h.n_green);
+  ed = new editor(u);
+  ed.editor.ui.del_snap(30,10,30,10);
 }
 
 
@@ -844,7 +852,7 @@ function draw(){
   //textFont(font);
   if(s.button.ui.clicked()){ 
     s.shadow(0,0,0,0,h.grey);
-    t.change(1,false);
+    t.change(0,false);
   }else{
     s.shadow(3,3,3,3,h.grey);
     t.change(1,true);
@@ -855,7 +863,12 @@ function draw(){
   u.child(1).ui.draw();
   s.draw();
   t.draw();
+  l.draw();
+  ed.key(h.get_key());
+  ed.draw();
 }
+
+
 
 
 
