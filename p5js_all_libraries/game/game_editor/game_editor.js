@@ -1,5 +1,39 @@
 
 
+function conversion(tile){
+  let aa = 0,bb = 0,cc=tile.str[0][0],dd=tile.str[0][1];
+  for(let i=0 ; i<tile.str.length; i++){
+    if(tile.str[i][0] > aa){
+      aa = tile.str[i][0];
+    }
+    if(tile.str[i][1] > bb){
+      bb = tile.str[i][1];
+    }
+    if(tile.str[i][0] < cc){
+      cc = tile.str[i][0];
+    }
+    if(tile.str[i][1] < dd){
+      dd = tile.str[i][1];
+    }
+  }
+  
+  let w = [];
+  
+  for(let i=cc-1 ; i<aa ; i++){
+    w.push([]);
+    for(let j=dd-1 ; j<bb ; j++){
+      w[i-cc+1].push("x");
+    }
+  }
+  
+  tile.str.forEach(val=>{
+    w[val[0]-cc][val[1]-dd] = val[2]; 
+  });
+  return w;
+}
+
+
+
 function world_editor(json,tile){ //don't be confused , both are json files
   // tile format is like [[x,y,tile],[x,y,tile],...]
   this.json = json;
