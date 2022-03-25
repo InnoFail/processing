@@ -1,4 +1,62 @@
-
+function editor(u){
+  this.parent = u;
+  this.editor = this.parent.copy();
+  this.editor.ui.set_snap_px(0,0,100,100).c(255,255,255).set_clip(true);
+  this.temp_str = "";
+  this.str = "";
+  this.key_passed = "";
+  this.bar_pos = 0;
+  
+  this.key = function(k){
+    this.key_passed = k;
+    return this;
+  }
+  
+  this.draw = function(){
+    if(this.editor.ui.focused()){
+    if(this.key_passed == "Shift"){
+      
+    }else if(this.key_passed == "CapsLock"){
+      
+    }else if(this.key_passed == "ArrowRight"){
+      if(this.str.length > this.bar_pos){
+        this.bar_pos+=1;
+      }
+    }else if(this.key_passed == "ArrowLeft"){
+      this.bar_pos-=1;
+      if(this.bar_pos<0){
+        this.bar_pos=0;
+      }
+    }else if(this.key_passed == "ArrowUp"){
+      
+    }else if(this.key_passed == "ArrowDown"){
+      
+    }else if(this.key_passed == "Backspace"){
+      this.str = this.str.substring(0,this.bar_pos-1)+this.str.substring(this.bar_pos,this.str.length);
+      this.bar_pos-=1;
+      if(this.bar_pos<0){
+        this.bar_pos=0;
+      }
+    }else if(this.key_passed == "Enter"){
+      this.str += "\n";
+      this.bar_pos+=1;
+    }else{
+      this.str += this.key_passed;
+      if(this.key_passed != ""){
+        this.bar_pos+=1;
+      }
+    }
+    }
+    this.temp_str = this.str.substring(0,this.bar_pos)+"|"+this.str.substring(this.bar_pos,this.str.length);
+    this.editor.ui.set_str(this.temp_str);
+   
+    this.editor.ui.draw();
+  }
+  
+  this.get_str = function(){
+    return this.str;
+  }
+}
 
 function slider(min,max,vert,u){
   this.parent = u;
