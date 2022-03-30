@@ -1,4 +1,5 @@
 //It works finer than i thought
+//If return value is in [360-delta,360+delta] then point lies inside the convex or concave shape.
 
 
 let points = {
