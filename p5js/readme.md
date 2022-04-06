@@ -1,5 +1,5 @@
 # Simple And Elegent UI
-***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. Fortunately , it supports all the rotations and translations, but after rotations the point_in algorithm doesnot work on ui childs(created by copy()), that is, clicked , hovered, focused functions stops working for rotated ui's child only works on parent, even if the rotations are applied on any child. But all rotations and translations can be used for decorations.
+***UI library*** is simple to learn and easy to use and yet a very powerful library in terms of making 2D ui. It is applicable to p5.js library and can be used to make 2d-ui for games either 2d or 3d games . I has provided some beautiful themes in help.js file , simply include it into your html file and you are good to go. UnFortunately , it supports no rotations .
   
 ### ***Topics***
 - Constructors
@@ -165,22 +165,7 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
--  set_angle(angle) // (__deprected__)
----> angle is in degrees and is clockwise
-```javascript
-let u,v;
-function setup(){
-	createCanvas(600,350);
-	u = new ui().setup([100,100]).grid(5,5).c(255,0,0);
-	v = u.copy().set_snap(0,0,5,4).c(255,0,0);
-	v.set_angle(30);
-}
-function draw(){
-	u.draw();
-	v.draw();
-	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
-}
-```
+
 - set_clip(clipped)
 ---> This is only for text content. By default clipped = false.
 ```javascript
@@ -584,16 +569,13 @@ function draw(){
 	// Note the rendering is done in the order the draw calls are made , as in above example u is rendered first then v , so v is on the top of u.
 }
 ```
-- point_in(x,y)
----> difference between point_in and point_inside is nothing if rotation is not applied.
-`let bool_ = ui.point_in(mouseX,mouseY);`
 - point_inside(x,y)
 ---> difference between point_in and point_inside is nothing if rotation is not applied.
-`let bool_ = ui.point_inside(mouseX,mouseY);
+`let bool_ = ui.point_inside(mouseX,mouseY);`
 - hasinside(ui)
 `let bool_ = u.has_inside(v);\\ that_is does v is inside u;`
 - collision(ui)
-``let bool_ = ui.collision(v);\\ if v and u are touching`
+`let bool_ = ui.collision(v);\\ if v and u are touching`
 - get_line_height()
 `let h = u.get_line_height()`
 #### using variables to get values
@@ -660,12 +642,12 @@ But reading them is fine.
 |20| align| [0,0]| set_align()|
 |21| lineh| 14| set_line_height()|
 |22| txtStyle| 0| set_text_style()|
-|23| angle| 0| set_angle()|
-|24| mx| 0| point_in()|
-|25| my| null| point_in()|
+|23| | | |
+|24| | | |
+|25| | | |
 |26| last_clicked| false| clicked()|
 |27| p| ui_parent| copy()|
-|28| inp| null| createInp()|
+|28| | | |
 |29| scrollx| 0| set_scroll()|
 |30| scrolly| 0| set_scroll()|
 |31| last_hover| null| hovered()|
@@ -873,62 +855,7 @@ function draw(){
 
 
 ```
- 
----------------------------------------------------------------------
-### Examples
-- Making component
-```javascript
-let u,v,p,q,r,s,t,a,b;
-let t1,t2,t3;
-let h;
-let v_txt="";
 
-function setup(){
-   createCanvas(400,300);
-  h = new help();
-  u = new ui().grid(16,10).set_color(h.vb_orange);
-  v = u.copy().set_snap(1,1,5,5).set_color(h.vb_blue);
-  p = u.copy().set_snap(1,6,5,9).set_color(h.vb_yellow);
-  
-  r = u.copy().set_snap(6,4,9,6).grid(1,3).set_color(h.clear);
-  s = r.copy().set_font_size(16).set_str("Scroll").set_no_edit(true);
-  
-//making button with s and t using v as a container to make calculations
-//after making v , we make s with snap_px to have more control over pixel and then applying googles material design principle we make a container s with text "scroll" and font size 16px 
-//and the (0,0) size of(text_width+padding_left+padding_right,text_height+padding_top+padding_bottom)
-//we do not display s texts since we want to position it to center so we make t ui
-//t with position (padding_left_of_s,padding_top_of_s) and bottom_left corner coordinates as (s.width - padding_right_of_s,s.height - padding_bottom_of_s)
-   s.set_snap_px(0,0,s.get_text_width()+16,s.get_line_height()+16).set_text_color(h.black).set_stroke_color(h.white);
-  t = s.copy().set_snap_px(8,8,s.width-8,s.height-8).set_str("Scroll");
-  // a is a component of s with no parent
-  // b is component of t with parant a
-  a.repos(120,0,a.get_text_width()-s.get_text_width(),0);
-  b = t.component(a).set_snap_px(8,8,a.width-8,a.height-8).set_str("hello_world");
-}
-
-
-function draw(){
-  //console.log(s.snaps,s.height);
-  if(s.clicked()){
-    s.set_color(h.vb_aqua);
-    t.set_text_color(h.white);
-  }else{
-    s.set_color(h.clear);
-    t.set_text_color(h.black);
-  }
-  u.draw();
-  v.draw();
-  p.draw();
-  r.draw();
-  s.draw();
-  t.draw();
-  a.draw();
-  b.draw();
-}
-
-
-
-```
 
 ------------------------------------------------------------------
 ### Summary
@@ -947,18 +874,18 @@ function draw(){
 |10| del_snap(delx1,dely1,delx2,dely2,stricx,stricy) | changes the snap by adding del amount in weight of each and the stricx and stricy parameter defines if the child exceeds the parent| 
 |11| del_snap_px(delx1,dely1,delx2,dely2,stricx,stricy) | changes the snap by adding del amount in px rather than weight of each and the stricx and stricy parameter defines if the child exceeds the parent| 
 |12| set_str(text) | sets text to be shown while displaying text in ui element |
-|13| set_angle(angle) //(__deprected__) | sets angle for rotation, where angle is in degrees,  |
+|13| | |
 |14| coord() | returns the coordinates after applying rotations|
 |15| set_clip(clipped) | boolean value clipped if set true will clip any text content outside the rectangular box|
 |16| draw() | without parameters and should be called every time a ui is drawn |
 |17| repos(delx,dely,delw,delh) | all parameters affects at pixel sizing and this function helps in translation of element, but using repos(delx,dely) is just fine |
-|18| point_in(x,y) | checks if a point is in the rotated or unrotated rectangle or not |
+|18| |  |
 |19| point_inside(x,y) | checks if a point is in an unrotated rectangle or not , this function is only to increase performance|
 |20| hasinside(ui) | to determine if a ui is totally inside another ui either rotated or not | 
 |21| collision(ui) | to check if the provided ui object collides with this ui or not either rotated or unrotated|
 |22| nothing() | function that does nothing |
 |23| edit(text) | displays text on ui|
-|24| createInp(event)| ***deprecated function***|
+|24| | |
 |25| set_align(a,b) | sets alignment where a, b has meaning and values as described in upper chapters|
 |26| set_line_height(height)| sets the text line height|
 |27| get_line_height() | returns line height|
@@ -983,8 +910,7 @@ function draw(){
 |46| set_wrap(a)| sets wrap|
 |47| set_font_size(a)| sets font size|
 |48| set_no_edit(bool)| sets if text should be displayed or not|
-|49| component(ui_parent)|returns exact copy of itself except having specified parent.|
-|50| get_text_width()| returns text width|
+|49| get_text_width()| returns text width|
 
 -----------------------------------------------------------
 
