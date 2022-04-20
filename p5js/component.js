@@ -192,7 +192,7 @@ function list(number,u_list,u){
   this.change = function(count,vert){
     this.count = count;
     
-      let x = this.list.ui.x,y=this.list.ui.y;
+      let x = 0,y=0;
     let mm = (this.happened == false)?this.u_list.length:this.n + this.count;
     let k = this.count;
     for(let i=this.happened?this.count:0; i< mm; i++){
@@ -201,7 +201,7 @@ function list(number,u_list,u){
       }
       
     let q = this.list.child(k).ui;
-      if(vert != true){
+      if(vert == true){
     q.set_snap_px(x,y,x+q.width,q.height+y);
         y += q.height;
       }else{
