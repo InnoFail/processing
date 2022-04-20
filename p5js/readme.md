@@ -789,7 +789,7 @@ function draw(){
   Functions:
 - slider(min,max,vert,ui) = ui belongs to group object in group.js ,has variables : --- parent,vert,slider,bar and functions are draw() and get_value(). Note parent,slider and bar are group objects
  - button(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,padx,pady,button,shadow and functions are draw() shadow(a,b,c,d,colour), and create(). Note parent,button and shadow are group objects
-- div(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,padx,pady,button,shadow and functions are draw() shadow(a,b,c,d,colour), and create(). Note parent,button and shadow are group objects. Difference between div and button is shadow in div works on shadow variable while shadow on button works on button variable.
+- div(text,ui) = ui belongs to group object in group.js ,has variables : --- parent,button,child,shade and functions are draw() , set_color(c), del_snap(a,b,c,d),del_snap_px(a,b,c,d),shadow(a,b,c,d,colour). Note parent,button and shadow are group objects. Difference between div and button is shadow in div works on shadow variable while shadow on button works on button variable.
  - list(number,ui_list,u) = ui belongs to group object in group.js ,has variables : --- parent, list,n,u_list,count and functions draw(),change(count_number,vert)
 - editor(ui) =  ui belongs to group object in group.js ,has variables : --- parent, list,n,u_list,count and functions draw(),get_str()
 	--Example
