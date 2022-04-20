@@ -138,36 +138,46 @@ function button(text,u){
   }
 }
 
+
 function div(text,u){
-  this.padx = [16,16];
-  this.pady = [8,8];
   this.parent = u;
 
-  this.button = this.parent.copy();
-  this.button.copy();
-  this.button.child(0).ui.c(255,255,255);
+  this.div = this.parent.copy();
+  this.div.ui.set_snap(0,0,1,1);
+  this.child = this.div.copy();
+  this.div.child(0).ui.c(255,255,255);
+  this.shade = this.div.copy();
+  this.color = color(255);
   
-  this.create = function(){
-    this.button.child(0).ui.set_str(text).set_scroll(-this.padx[0],-this.pady[0]);
-    this.button.ui.set_snap_px(0,0,this.button.child(0).ui.get_text_width()+this.padx[0]+this.padx[1],this.button.child(0).ui.lineh+this.pady[0]+this.pady[1]).c(255,255,255);
-  
-  
+  this.set_color = function(col){
+    this.color = col;
+    return this;
   }
-  this.create();
-  this.button.copy();
+  
+  this.del_snap = function(a,b,c,d){
+    this.div.ui.del_snap(a,b,c,d);
+    return this;
+  }
+  
+  this.del_snap_px = function(a,b,c,d){
+    this.div.ui.del_snap_px(a,b,c,d);
+    return this;
+  }
   
   this.shadow = function(a,b,c,d,col){
-    let p = this.button.child(1).ui;
-    let q = this.button.child(0).ui;
-    let but = this.button.ui;
+    let p = this.div.child(1).ui;
+    let q = this.div.child(0).ui;
+    let but = this.div.ui;
       p.set_snap_px(q.x-but.x-a,q.y-but.y-b,q.x-but.x+q.width-c,q.y-but.y+q.height-d).set_color(col);
     
   }
   
+    
   this.draw = function(){
-    this.button.ui.draw();
-    this.button.child(1).ui.draw();
-    this.button.child(0).ui.draw();
+    this.child.ui.set_color(this.color);
+    //this.div.ui.draw();
+    this.shade.ui.draw();
+    this.child.ui.draw();
   }
 }
 
