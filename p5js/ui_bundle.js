@@ -19,6 +19,7 @@ function group(u){
   
   this.add_child = function(ch){
     ch.parent = this;
+    ch.ui.p = this.ui;
     this.childs.push(ch);
     return this;
   }
@@ -46,7 +47,7 @@ function group(u){
 
 
  
-let key_code_1 = "",key_code_2 = "";
+let key_code_1 = "",key_code_2 = "",keyIsReleased = false;
 
 
 function keyPressed(){
@@ -56,6 +57,7 @@ function keyPressed(){
 function keyReleased(){
   key_code_2 = "";
   key_code_1 = key;
+  keyIsReleased = true;
 }
 
 function help(){
@@ -304,7 +306,6 @@ function button(text,u){
   }
 }
 
-
 function div(text,u){
   this.parent = u;
 
@@ -347,7 +348,6 @@ function div(text,u){
   }
 }
 
-
 function list(number,u_list,u){
   this.parent = u;
   this.list = this.parent.copy();
@@ -359,7 +359,7 @@ function list(number,u_list,u){
   this.change = function(count,vert){
     this.count = count;
     
-      let x = this.list.ui.x,y=this.list.ui.y;
+      let x = 0,y=0;
     let mm = (this.happened == false)?this.u_list.length:this.n + this.count;
     let k = this.count;
     for(let i=this.happened?this.count:0; i< mm; i++){
@@ -368,7 +368,7 @@ function list(number,u_list,u){
       }
       
     let q = this.list.child(k).ui;
-      if(vert != true){
+      if(vert == true){
     q.set_snap_px(x,y,x+q.width,q.height+y);
         y += q.height;
       }else{
