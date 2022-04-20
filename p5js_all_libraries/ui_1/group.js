@@ -12,6 +12,7 @@ function group(u){
   
   this.add_child = function(ch){
     ch.parent = this;
+    ch.ui.p = this.ui;
     this.childs.push(ch);
     return this;
   }
