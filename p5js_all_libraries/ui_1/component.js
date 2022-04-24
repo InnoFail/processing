@@ -41,10 +41,10 @@ function editor(u){
         this.bar_pos=0;
       }
     }else if(this.key_passed == "Enter"){
-      this.str += "\n";
+      this.str = this.str.substring(0,this.bar_pos)+"\n"+this.str.substring(this.bar_pos,this.str.length);
       this.bar_pos+=1;
     }else{
-      this.str += this.key_passed;
+      this.str = this.str.substring(0,this.bar_pos)+this.key_passed+this.str.substring(this.bar_pos,this.str.length);
       if(this.key_passed != ""){
         this.bar_pos+=1;
       }
