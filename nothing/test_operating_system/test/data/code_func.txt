@@ -1,0 +1,35 @@
+myprint
+mem 1,1,0
+mem 2,2,1
+mem 2,3,5
+mem 4,4,1
+check_if 4,4
+add 1,1,1,1,2,2
+println 1,1
+compare_all 2,1,1,1,2,3
+continue_if 2,1
+end_if null
+end
+
+// myprint null
+mem 1,1,1
+new_ui 1,1
+mem 1,2,14
+ui_c 1,2
+mem_s 2,parent
+ui_id 2
+ui_copy 1,1
+mem_s 1,child_1
+ui_id 1
+ui_set_text 1
+mem 1,2,22
+ui_c 1,2
+mem 1,1,0
+ui_at 1,1
+ui_copy 1,1
+mem_s 0,child_2
+ui_id 0
+ui_set_text 0
+mem 1,2,21
+ui_c 1,2
+

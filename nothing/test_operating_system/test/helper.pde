@@ -105,25 +105,6 @@ class helper{
     return false;
   }
   
-  void edit(ui g,float x,float y){
-   int[] srk={};
-  this.s=this.s.concat(this.key_());
-  g.write(this.s,srk,x,y);
-  }
-  
-
-  
-  void edit(ui g,String s,float x,float y){
-   int[] srk={};
-  this.s=this.s.concat(s);
-  g.write(this.s,srk,x,y);
-  }
-  
-  void edit(ui g,float x,float y,float x1,float y1){
-   int[] srk={};
-  this.s=this.s.concat(this.key_());
-  g.write(this.s,srk,x,y,x1,y1);
-  }
   
   void up_to_date(ui[] u,boolean b){
   for(int i=0;i<u.length;i++){

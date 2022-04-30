@@ -1,83 +1,3 @@
-class data_ui{
- list<String> ui_id,ui_class,ui_hash;
- list<ui> ui_object;
- 
-  data_ui(){
-   this.ui_id = new list<String>();
-   this.ui_class = new list<String>();
-   this.ui_hash = new list<String>();
-   this.ui_object = new list<ui>();
-  }
-  
-  void add(ui u,String id,String ui_class){
-    this.ui_object.add(u);
-    this.ui_id.add(id);
-    this.ui_class.add(ui_class);
-    this.ui_hash.add(Integer.toString(u.hashCode()));
-    int p= this.ui_object.size();
-    int q=this.ui_id.size();
-    int r=this.ui_class.size();
-    int s=this.ui_hash.size();
-    if( p!=q || p!=r || p!=s || q!=r || q!=s || r!=s){
-      throw new java.lang.Error("list of ui,id,class or hash doesnot contain equal number of element.");
-    }
-  }
-  
-  ui get_object_by_hash(String hash){
-    for(int i=0;i<this.ui_hash.size();i++){
-      if(hash.equals(this.ui_hash.get(i))){
-       return this.ui_object.get(i); 
-      }
-    }
-    return null;
-  }
-  
-  ui get_object_by_id(String id){
-    for(int i=0;i<this.ui_id.size();i++){
-      if(id.equals(this.ui_id.get(i))){
-       return this.ui_object.get(i); 
-      }
-    }
-    return null;
-  }
-  
-  list<ui> get_object_by_class(String ui_class){
-    list<ui> p=new list<ui>();
-    for(int i=0;i<this.ui_class.size();i++){
-      if(ui_class.equals(this.ui_class.get(i))){
-       p.add(this.ui_object.get(i)); 
-      }
-    }
-    return p;
-  }
-  
-  String get_hash_by_object(ui u){
-    return Integer.toString(u.hashCode());
-  }
-  
-  String get_class_by_hash(String hash){
-    for(int i=0;i<this.ui_hash.size();i++){
-      if(hash.equals(this.ui_hash.get(i))){
-       return this.ui_class.get(i); 
-      }
-    }
-    return null;
-  }
-  
-  String get_id_by_hash(String hash){
-    for(int i=0;i<this.ui_hash.size();i++){
-      if(hash.equals(this.ui_hash.get(i))){
-       return this.ui_id.get(i); 
-      }
-    }
-    return null;
-  }
-
-}
-
-
-
-
 class ui{
   ArrayList<Float> child;
   ArrayList<ui> child_;
@@ -93,45 +13,40 @@ class ui{
   IntDict i_char;
   float extraX,extraY,text_h;
   String default_text;
-  edit e;
-  data_ui du;
    
    
    /*
    All Functions and constructors are:-
    -> ui(boolean vert)
    -> ui(boolean vert,float x,float y,float w,float h)
-   -> ui(boolean vert,String[] id_class)
-   -> ui(boolean vert,float x,float y,float w,float h,String[] id_class)
-   -> private void pos(float x,float y)
-   -> void update_child()
-   -> private void lay_weight(float weight)
-   -> void up_to_date()
-   -> void up_to_date(boolean b)
-   -> private void self_c(int count)
-   -> private void parent(ui p)
-   -> void ui_c(color c)
+   -> private void pos(float x,float y)   // sets position of ui only for those who have no parants
+   -> void update_child()  // calls up_to_date() from behind
+   -> private void lay_weight(float weight)  // sets the weight of child
+   -> void up_to_date()  //
+   -> void up_to_date(boolean b)  // calls up_to_date() if b is true
+   -> private void self_c(int count)  //sets the self count of child while calling add_in_ and its private method
+   -> private void parent(ui p)  // sets parent of ui while calling add_in_ and its private method
+   -> void ui_c(color c)  // sets color
    -> void update()
-   ->void txt(float x1,float y1)
-   ->void txt()
-   ->void def_text(String txt)
-   -> float c_X(float x)
-   -> float c_Y(float y)
-   -> float weight()
-   -> ui copy_(float weight,boolean vert)
-   -> boolean collision(float x,float y)
-   -> void anim(boolean b,float delt,float delw)
-   -> void anim(float delt,float delw)
-   ->void write(String s)
-   ->anim(boolean, float, float) to animate blinking on a condition, given time and for how much time
-   ->anim_h(String s,boolean b,float a1,float a2,float delt,float delw) ,s can be "h","w","x","y","lay"
-   ->boolean anim(float time,float del)
-   -> void write(String s,int[] pro,float x,float y)
-   -> void write(String s,int[] pro,float x,float y,float w,float h)
-   ->ui add_in_(float weight,boolean vert) //add a new child
-   ->ui c() returns reference to child
-   ->ui add_in_(float weight,boolean vert,String id)
-   ->ui add_in_(float weight,boolean vert,String[] id_class)
+   ->void txt(float x1,float y1)  // text at x,y position, calls write() method from behind
+   ->void txt()  // text at center position, calls txt(x1,y1) form behind
+   ->void def_text(String txt)  // sets default text
+   -> float c_X(float x)  // constrains a given point x position within the ui
+   -> float c_Y(float y)  // constrains a given point y position within the ui
+   -> float weight()  // returns weight
+   -> ui copy_(float weight,boolean vert)  // creates a child but is for private use only
+   -> boolean collision(float x,float y)   // checks if a point is inside , only for non rotated
+   ->  boolean collision_box(float x,float y,float w,float h) // checks if a box collides it or not , only for not rotated
+   ->up_to_date(boolean) // to update itself on a given condition and calls up_to_date() if condition is true
+   ->void write(String s,int[] pro,float x,float y) // to start to write from (x,y) and restrict to layout(w,h)
+   ->void write(String s,int[] pro,float x,float y,float w,float h) // is used to restrict to acertain dimension (x,y,w,h)
+   ->void anim(boolean b,float delt,float delw)) //to animate blinking on a condition, given time and for how much time
+   -> void anim(float delt,float delw)  // to animate for given time and for how much time
+    -> void anim(float delt,int delw)  // returns true as often if time in milis after program get started has delw/delt in percentage 
+   ->void add_in_(float weight,boolean vert)  // calls copy_(weight,vert) from behind
+   ->ui c(int i)  // returns the child at position i
+   
+   */  
    
   /* 
       This class has two constructors.
@@ -151,9 +66,6 @@ class ui{
     this.parent=this;
     this.ch=new char[1000];
     this.default_text=new String();
-    this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,"","");
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -180,58 +92,6 @@ class ui{
     this.parent=this;
     this.ch=new char[1000];
     this.default_text=new String();
-    this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,"","");
-    for(int i=0;i<ch.length;i++){
-      ch[i]=" ".charAt(0);
-    }
-    this.i_char=new IntDict();
-    this.extraX=this.extraY=0;
-  }
-  
-  
-   ui(boolean vert,String id,String ui_class){
-    this.child=new ArrayList<Float>();
-    this.child_=new ArrayList<ui>();
-    this.xPos=0;
-    this.yPos=0;
-    this.w=width;
-    this.h=height;
-    this.c1=color(0,0,0,1);
-    this.weight=1;
-    this.vert=vert;
-    this.text_h=15;
-    this.parent=this;
-    this.ch=new char[1000];
-    this.default_text=new String();
-    this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,id,ui_class);
-    for(int i=0;i<ch.length;i++){
-      ch[i]=" ".charAt(0);
-    }
-    this.i_char=new IntDict();
-    this.extraX=this.extraY=0;
-  }
-  
-   ui(boolean vert,float x,float y,float w,float h,String id,String ui_class){
-    this.child=new ArrayList<Float>();
-    this.child_=new ArrayList<ui>();
-    this.xPos=x;
-    this.yPos=y;
-    this.w=w;
-    this.h=h;
-    this.c1=color(0,0,0,1);
-    this.weight=1;
-    this.vert=vert;
-    this.text_h=15;
-    this.parent=this;
-    this.ch=new char[1000];
-    this.default_text=new String();
-    this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,id,ui_class);
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -267,7 +127,6 @@ class ui{
    }
    
    void up_to_date(){
-     if(this.parent!=this){
      float xx,yy;
     xx=this.parent.xPos;
     yy=this.parent.yPos;
@@ -288,7 +147,6 @@ class ui{
     this.w=((float)this.parent.child.get(this.self_count))*this.parent.weight()*this.parent.w;
     this.h=this.parent.h;
     }
-     }
    }
    
    private void self_c(int count){
@@ -320,9 +178,8 @@ class ui{
   this.write(this.default_text,nn,x1,y1);
   }
   
-  
   void txt(){
-   this.txt(this.w/2,this.h/2);
+   this.txt(this.w/2-textWidth(this.default_text)/2,this.h/2-this.text_h/2);
   }
   
   void def_text(String txt){
@@ -406,76 +263,19 @@ class ui{
   }
   
   /*
-  ->up_to_date(boolean) to update itself on a given condition and calls up_to_date() if condition is true
-  ->write(String , int[], float, float) to start to write from (x,y) and restrict to layout(w,h)
-    write(String , int[],float ,float, float, float) is used to restrict to acertain dimension (x,y,w,h)
-  ->void write(String s)
-  ->anim(boolean, float, float) to animate blinking on a condition, given time and for how much time
-  ->anim_h(String s,boolean b,float a1,float a2,float delt,float delw) ,s can be "h","w","x","y","lay"
-  ->boolean anim(float time,float del)
+  ->up_to_date(boolean) // to update itself on a given condition and calls up_to_date() if condition is true
+  ->write(String , int[], float, float) // to start to write from (x,y) and restrict to layout(w,h)
+  ->write(String , int[],float ,float, float, float) // is used to restrict to acertain dimension (x,y,w,h)
+  ->anim(boolean, float, float) //to animate blinking on a condition, given time and for how much time
   */
   
 void anim(boolean b,float delt,float delw){
 if(b){
   this.lay_weight(1+this.anim_frameCount);
-  this.anim_frameCount+=delt*this.transition_dir;
+  this.anim_frameCount+=0.1*this.transition_dir;
 }else{
   this.lay_weight(1+this.anim_frameCount);
  this.anim_frameCount-=delt*this.transition_dir;
-}
-
-if(this.anim_frameCount>delw){
-  this.anim_frameCount=delw;
-}else if(this.anim_frameCount<0){
-  this.anim_frameCount=0;
-}
-}
-
-
-void anim_(String s,boolean b,float a1,float a2,float delt,float delw){
-  if(delw<=0){
-   delw=1; 
-  }
-if(b){
-  switch(s){
-  case "height":
-  this.h=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "width":
-  this.w=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "x":
-  this.xPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "y":
-  this.yPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "lay":
-  this.lay_weight(1+a1+(a2-a1)*(1-this.anim_frameCount/delw));
-  break;
-  default:
-  }
-  this.anim_frameCount+=delt*this.transition_dir;
-}else{
-  switch(s){
-  case "height":
-  this.h=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "width":
-  this.w=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "x":
-  this.xPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "y":
-  this.yPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "lay":
-  this.lay_weight(1+a1+(a2-a1)*(1-this.anim_frameCount/delw));
-  break;
-  default:
-  }
-  this.anim_frameCount-=delt*this.transition_dir;
 }
 
 if(this.anim_frameCount>delw){
@@ -494,15 +294,6 @@ if(b){
 }
 }
 
-void write(String s){
-  this.e.edit_text=s;
-  this.e.x=(int)this.xPos;
-  this.e.y=(int)this.yPos+(int)this.text_h;
-  this.e.bound_x=(int)this.xPos+(int)this.w-10;
-  this.e.bound_y=(int)this.yPos+(int)this.h-(int)this.text_h;
-  this.e.text();
-}
-
 
 void write(String s,int[] pro,float x,float y){
   this.extraX=constrain(x,0,this.w);
@@ -518,6 +309,7 @@ void write(String s,int[] pro,float x,float y){
   }
   }
   int pp=0;
+  
   while(extraY<(int)this.h){
   while(extraX+textWidth(ch[pp])<(int)this.w){
     boolean hp=false;
@@ -531,11 +323,10 @@ void write(String s,int[] pro,float x,float y){
     text(ch[pp],extraX+this.xPos,extraY+this.yPos);
     }
     extraX+=textWidth(ch[pp]);
-        if(pp < 999){
         pp++;
-    }else{
-      break;
-    }
+        if(pp>999){
+         return; 
+        }
       }
   if(extraX>=this.w-textWidth(ch[pp])){
      extraX=0;
@@ -608,12 +399,19 @@ boolean anim(float time,float del){
   return false;
 }
 
+boolean anim(float time,int del){
+  int t_from_s=millis();
+  if(t_from_s % time>del){
+    return true;
+  }
+  return false;
+}
+
 /* void add_in_() to add new child
    ui c() returns reference to child*/
 
-ui add_in_(float weight,boolean vert){
+void add_in_(float weight,boolean vert){
   this.copy_(weight,vert);
-  return this.c(this.child.size()-1);
 }
 
 ui c(int i){
@@ -622,30 +420,7 @@ ui c(int i){
   }
   return this.child_.get(i);
 }
-
-ui add_in_(float weight,boolean vert,String id){
-  this.copy_(weight,vert);
-  ui p = this.c(this.child.size()-1);
-  du.add(p,id,"");
-  return p;
-}
-
-
-ui add_in_(float weight,boolean vert,String id,String ui_class){
-  this.copy_(weight,vert);
-  ui p = this.c(this.child.size()-1);
-  du.add(p,id,ui_class);
-  return p;
-}
-
-ui c_id(String id){
- return this.du.get_object_by_id(id);
-}
-
-list<ui> c_class(String ui_class){
- return this.du.get_object_by_class(ui_class); 
-}
-
+  
 }
 
 

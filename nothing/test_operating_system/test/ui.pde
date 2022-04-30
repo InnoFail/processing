@@ -77,12 +77,13 @@ class data_ui{
 
 
 
+public data_ui du = new data_ui();
 
 class ui{
   ArrayList<Float> child;
   ArrayList<ui> child_;
   float xPos,yPos,h,w;
-  color c1;
+  color c1,c2 = color(1,0);
   float weight;
   boolean vert;
   int self_count;
@@ -94,7 +95,7 @@ class ui{
   float extraX,extraY,text_h;
   String default_text;
   edit e;
-  data_ui du;
+  color text_color = color(0,0,0);
    
    
    /*
@@ -112,22 +113,14 @@ class ui{
    -> private void parent(ui p)
    -> void ui_c(color c)
    -> void update()
-   ->void txt(float x1,float y1)
-   ->void txt()
    ->void def_text(String txt)
    -> float c_X(float x)
    -> float c_Y(float y)
    -> float weight()
    -> ui copy_(float weight,boolean vert)
    -> boolean collision(float x,float y)
-   -> void anim(boolean b,float delt,float delw)
-   -> void anim(float delt,float delw)
    ->void write(String s)
-   ->anim(boolean, float, float) to animate blinking on a condition, given time and for how much time
-   ->anim_h(String s,boolean b,float a1,float a2,float delt,float delw) ,s can be "h","w","x","y","lay"
    ->boolean anim(float time,float del)
-   -> void write(String s,int[] pro,float x,float y)
-   -> void write(String s,int[] pro,float x,float y,float w,float h)
    ->ui add_in_(float weight,boolean vert) //add a new child
    ->ui c() returns reference to child
    ->ui add_in_(float weight,boolean vert,String id)
@@ -152,8 +145,7 @@ class ui{
     this.ch=new char[1000];
     this.default_text=new String();
     this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,"","");
+    du.add(this,"","");
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -181,8 +173,7 @@ class ui{
     this.ch=new char[1000];
     this.default_text=new String();
     this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,"","");
+    du.add(this,"","");
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -206,8 +197,7 @@ class ui{
     this.ch=new char[1000];
     this.default_text=new String();
     this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,id,ui_class);
+    du.add(this,id,ui_class);
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -230,8 +220,7 @@ class ui{
     this.ch=new char[1000];
     this.default_text=new String();
     this.e=new edit();
-    this.du = new data_ui();
-    this.du.add(this,id,ui_class);
+    du.add(this,id,ui_class);
     for(int i=0;i<ch.length;i++){
       ch[i]=" ".charAt(0);
     }
@@ -248,15 +237,17 @@ class ui{
   apart of that there are functions that help update child and its parent when its layout weight is changed
   */
   
-   private void pos(float x,float y){
+   private ui pos(float x,float y){
      this.xPos=x;
      this.yPos=y;
+     return this;
    }
    
-   void update_child(){
+   ui update_child(){
      for(int i=0;i<this.child_.size();i++){
        this.child_.get(i).up_to_date();
      }
+     return this;
    }
    
    private void lay_weight(float weight){
@@ -266,7 +257,7 @@ class ui{
      this.parent.update_child();
    }
    
-   void up_to_date(){
+   ui up_to_date(){
      if(this.parent!=this){
      float xx,yy;
     xx=this.parent.xPos;
@@ -289,6 +280,7 @@ class ui{
     this.h=this.parent.h;
     }
      }
+     return this;
    }
    
    private void self_c(int count){
@@ -300,8 +292,19 @@ class ui{
    }
    
    /* to provide color of the ui*/
-   void ui_c(color c){
+   ui ui_c(color c){
      this.c1=c;
+     return this;
+   }
+   
+   ui ui_s(color c){
+     this.c2=c;
+     return this;
+   }
+   
+   ui ui_tc(color c){
+     this.text_color=c;
+     return this;
    }
    
   /* update the whole ui*/
@@ -309,24 +312,17 @@ class ui{
   void update(){
   push();
   fill(this.c1);
+  stroke(this.c2);
   rect(this.xPos,this.yPos,this.w,this.h);
   pop();
   }
   
   
   
-  void txt(float x1,float y1){
-  int[] nn={};
-  this.write(this.default_text,nn,x1,y1);
-  }
   
-  
-  void txt(){
-   this.txt(this.w/2,this.h/2);
-  }
-  
-  void def_text(String txt){
+  ui def_text(String txt){
     this.default_text=txt;
+    return this;
   }
   
   /*
@@ -414,76 +410,8 @@ class ui{
   ->anim_h(String s,boolean b,float a1,float a2,float delt,float delw) ,s can be "h","w","x","y","lay"
   ->boolean anim(float time,float del)
   */
-  
-void anim(boolean b,float delt,float delw){
-if(b){
-  this.lay_weight(1+this.anim_frameCount);
-  this.anim_frameCount+=delt*this.transition_dir;
-}else{
-  this.lay_weight(1+this.anim_frameCount);
- this.anim_frameCount-=delt*this.transition_dir;
-}
-
-if(this.anim_frameCount>delw){
-  this.anim_frameCount=delw;
-}else if(this.anim_frameCount<0){
-  this.anim_frameCount=0;
-}
-}
 
 
-void anim_(String s,boolean b,float a1,float a2,float delt,float delw){
-  if(delw<=0){
-   delw=1; 
-  }
-if(b){
-  switch(s){
-  case "height":
-  this.h=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "width":
-  this.w=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "x":
-  this.xPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "y":
-  this.yPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "lay":
-  this.lay_weight(1+a1+(a2-a1)*(1-this.anim_frameCount/delw));
-  break;
-  default:
-  }
-  this.anim_frameCount+=delt*this.transition_dir;
-}else{
-  switch(s){
-  case "height":
-  this.h=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "width":
-  this.w=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "x":
-  this.xPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "y":
-  this.yPos=a1+(a2-a1)*(1-this.anim_frameCount/delw);
-  break;
-  case "lay":
-  this.lay_weight(1+a1+(a2-a1)*(1-this.anim_frameCount/delw));
-  break;
-  default:
-  }
-  this.anim_frameCount-=delt*this.transition_dir;
-}
-
-if(this.anim_frameCount>delw){
-  this.anim_frameCount=delw;
-}else if(this.anim_frameCount<0){
-  this.anim_frameCount=0;
-}
-}
 
 void up_to_date(boolean b){
 if(b){
@@ -494,115 +422,50 @@ if(b){
 }
 }
 
-void write(String s){
+String write(String s){
   this.e.edit_text=s;
-  this.e.x=(int)this.xPos;
-  this.e.y=(int)this.yPos+(int)this.text_h;
+  this.e.x=(int)this.xPos+(int)this.extraX;
+  this.e.y=(int)this.yPos+(int)this.extraY;
   this.e.bound_x=(int)this.xPos+(int)this.w-10;
-  this.e.bound_y=(int)this.yPos+(int)this.h-(int)this.text_h;
-  this.e.text();
+  this.e.bound_y=(int)this.yPos+(int)this.h+(int)this.text_h;
+  this.e.c = this.text_color;
+  this.e.text_();
+  if(mousePressed){
+    int p1=(int)this.xPos+(int)this.extraX,p2=(int)this.yPos+(int)this.extraY+(int)this.text_h,p3=0;
+    for(char i: s.toCharArray()){
+      if(i == '\n'){
+       p2+= this.text_h; 
+       p1 = (int)this.extraX;
+      }else{
+       p1+= textWidth(i); 
+      }
+      p3++;
+      int delx = 3, dely = (int)this.text_h;
+      if(p1 >= mouseX-delx && p1 <= mouseX+delx && p2 >= mouseY-dely && p2 <= mouseY+dely){
+        this.e.extra = -this.e.pos+p3;
+      }
+    }
+  }
+  return this.e.edit_text;
 }
 
-
-void write(String s,int[] pro,float x,float y){
-  this.extraX=constrain(x,0,this.w);
-  this.extraY=constrain(y,this.text_h,this.h);
-  textSize(this.text_h);
-  if(s.length()<1000){
-  for(int i=0;i<s.length();i++){
-    ch[i]=s.charAt(i);
-  }
+ui txt(boolean b){
+  push();
+  fill(this.text_color);
+  if(b){
+    text(this.default_text,this.xPos,this.yPos,this.w,this.h);
   }else{
-    for(int i=0;i<1000;i++){
-    ch[i]=s.charAt(i);
+    text(this.default_text,this.xPos+this.w/2-textWidth(this.default_text)/2,this.yPos+this.h/2);
   }
-  }
-  int pp=0;
-  while(extraY<(int)this.h){
-  while(extraX+textWidth(ch[pp])<(int)this.w){
-    boolean hp=false;
-    for(int j=0;j<pro.length;j++){
-    if(anim(1000,100) && pp==pro[j]){
-      text(" ",extraX+this.xPos,extraY+this.yPos);// Instead of " " in you can use any string , this works as flickring or blinking a text at specified position
-      hp=true;
-    }
-    }
-    if(!hp){
-    text(ch[pp],extraX+this.xPos,extraY+this.yPos);
-    }
-    extraX+=textWidth(ch[pp]);
-        if(pp < 999){
-        pp++;
-    }else{
-      break;
-    }
-      }
-  if(extraX>=this.w-textWidth(ch[pp])){
-     extraX=0;
-     extraY+=text_h;
-    }else if(extraX<0){
-      extraX=this.w;
-      extraY-=text_h;
-    }
-    
-    this.extraX=constrain(this.extraX,0,this.w);
-    this.extraY=constrain(this.extraY,this.text_h,this.h);
-
-  }
-  
+  pop();
+  return this;
 }
 
-void write(String s,int[] pro,float x,float y,float x1,float y1){
-  this.extraX=constrain(x,0,x1);
-  this.extraY=constrain(y,this.text_h,y1);
-  textSize(this.text_h);
-  if(s.length()<1000){
-  for(int i=0;i<s.length();i++){
-    ch[i]=s.charAt(i);
-  }
-  }else{
-    for(int i=0;i<1000;i++){
-    ch[i]=s.charAt(i);
-  }
-  }
-  int pp=0;
-  while(extraY<(int)y1){
-  while(extraX+textWidth(ch[pp])<(int)x1){
-    if(pp<1000){
-    boolean hp=false;
-    for(int j=0;j<pro.length;j++){
-    if(anim(1000,100) && pp==pro[j]){
-      text(" ",extraX+this.xPos,extraY+this.yPos);
-      hp=true;
-    }
-    }
-    if(!hp){
-    text(ch[pp],extraX+this.xPos,extraY+this.yPos);
-    }
-    extraX+=textWidth(ch[pp]);
-    }
-        pp++;
-      }
-      
-      
-      if(pp<1000){
-  if(extraX>=x1-textWidth(ch[pp])){
-     extraX=0;
-     extraY+=text_h;
-    }else if(extraX<0){
-      extraX=x1;
-      extraY-=text_h;
-    }
-    this.extraX=constrain(this.extraX,0,x1);
-    this.extraY=constrain(this.extraY,this.text_h,y1);
-      }
-  }
-  
-}
+
 
 boolean anim(float time,float del){
   int t_from_s=millis();
-  if(t_from_s % time>del && t_from_s % time<time-del){
+  if(t_from_s % time>del){
     return true;
   }
   return false;
@@ -639,11 +502,11 @@ ui add_in_(float weight,boolean vert,String id,String ui_class){
 }
 
 ui c_id(String id){
- return this.du.get_object_by_id(id);
+ return du.get_object_by_id(id);
 }
 
 list<ui> c_class(String ui_class){
- return this.du.get_object_by_class(ui_class); 
+ return du.get_object_by_class(ui_class); 
 }
 
 }
@@ -651,40 +514,78 @@ list<ui> c_class(String ui_class){
 
 /* Simple example
 
-
-ui u,g,h,i,j;
-helper help;
-float r;
+ui u,menu,v,w,area,run;
+helper h;
+String txt = "Hel\nlosjhdjsh/n sjad sadjd\n sdji \nsdan";
+String[] code_func,code_draw;
+boolean changed = true, code_run=false;
+String func_str="",draw_str="";
 
 void setup(){
   size(300,400);
-  u=new ui(true);
-  g=u.copy_(1,true);
-  h=u.copy_(2,true);
-  g.ui_c(g.r);
-  h.ui_c(h.g);
-  h.vert=false;
-  i=h.copy_(2,true);
-  j=h.copy_(3,true);
-  help=new helper();
+  init_controls();
+  noStroke();
+  h = new helper();
+  u = new ui(h.vert);
+  u.ui_c(h.n_red);
+  menu = u.add_in_(1,h.hor);
+  v = menu.add_in_(1,h.hor).ui_c(h.white).ui_s(h.black).def_text("code_func.txt").ui_tc(h.n_red);
+  w = menu.add_in_(1,h.hor).ui_c(h.white).ui_s(h.black).def_text("code_draw.txt");
+  area = u.add_in_(9,h.vert).ui_c(h.n_blue);
+  run = new ui(h.hor,width-50,height-25,50,25).ui_c(h.n_green).def_text("run");
+  
+  code_func = loadStrings("code_func.txt");
+  code_draw = loadStrings("code_draw.txt");
+  
+  for(String i : code_func){
+    func_str += "\n"+i;
+  }
+  
+  for(String i : code_draw){
+    draw_str += "\n"+i;
+  }
+  
 }
+
 
 void draw(){
-background(255);
-ui[] up={u,g,h,i,j};
-help.update(up);
-boolean bb=g.collision(mouseX,mouseY);
-boolean ba=i.collision(mouseX,mouseY);
-i.anim(ba,0.1,2);
-g.anim(bb,0.1,2);
-ui[] ug={g,h,i,j};
-help.up_to_date(ug,bb);
-help.up_to_date(ug,ba);
-help.edit(g,50,50);
-if(mousePressed){
-rect(g.c_X(mouseX)-25,g.c_Y(mouseY)-25,50,50);
+  background(0);
+  
+  u.update();
+  area.update();
+  
+   if(changed && !code_run){
+    func_str = area.write(func_str);
+  }else if(!code_run){
+    draw_str = area.write(draw_str);
+  }
+  
+  
+  
+  h.update(new ui[]{menu,v,w,run});
+  h.up_to_date(new ui[]{area,v,w,menu},true);
+  v.txt(false);
+  w.txt(false);
+  run.txt(false);
+  if(h.mOnce()){
+    if(v.collision(mouseX,mouseY)){
+      changed = true;
+    }else if(w.collision(mouseX,mouseY)){
+      changed = false;
+    }
+    if(run.collision(mouseX,mouseY)){
+      code_run = true;
+    }else{
+     code_run = false; 
+    }
+  }
+  
+ 
+  if(mouseroll){
+    area.extraY -= scroll_num*3;
+  }
+  text("30\u00B0", 150, 60);
+  controls_update();
 }
-}
-
 
 */
