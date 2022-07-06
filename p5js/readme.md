@@ -853,10 +853,189 @@ function draw(){
 
 
 
+```
+---------------------------------------------------------------
+
+### Examples
+1) generative art with ui control
+ --> This uses ui bundle.js only
+``` javascript
+
+let spread,sides,length,branches,scaling,maxIndex,col;
+let u,slide,s1,s2,bt1;
+let h;
+
+
+function setup() {
+  createCanvas(400, 400);
+  sides = 3;
+  length = 160;
+  spread = 0.2;
+  branches = 3;
+  scaling = 0.85;
+  maxIndex = 3;
+  col = 4;
+  h = new help();
+  u = new group(new ui().set_color(h.white));
+  slide = new slider(0,PI*100,false,u);
+  slide.slider.ui.set_snap(0,0,0.3,0.05).set_color(h.n_blue);
+  slide.bar.ui.set_str("spread").set_text_color(h.n_red).set_scroll(0,-8).set_color(h.white).del_snap_px(30,0,48,0).set_font_size(10);
+  s1 = new slider(0,10,false,u);
+  s1.slider.ui.set_snap(0,0.05,0.3,0.1).set_color(h.n_green); s1.bar.ui.set_str("sides").set_text_color(h.n_red).set_scroll(0,-8).set_color(h.white).del_snap_px(30,0,40,0).set_font_size(10);
+  s2 = new slider(0,10,false,u);
+  s2.slider.ui.set_snap(0,0.1,0.3,0.15).set_color(h.n_yellow);
+  s2.bar.ui.set_str("color").set_text_color(h.n_red).set_scroll(0,-8).set_color(h.white).del_snap_px(30,0,62,0).set_font_size(10);
+ 
+  
+  bt1 = new button("Okay",u);
+  bt1.button.ui.del_snap(0,0.9,0,0.9);
+  
+}
+
+function draw() {
+  
+  slide.draw();
+  spread = slide.get_value()/100;
+  s1.draw();
+  sides = s1.get_value();
+  s2.draw();
+  col = 4 + s2.get_value();
+  bt1.draw();
+  bt1.shadow(1,1,1,1,h.grey_3);
+  if(bt1.button.child(0).ui.clicked() || slide.bar.ui.clicked() || s2.bar.ui.clicked() || s1.bar.ui.clicked()){
+    background(220);
+    push();
+    
+    
+    strokeWeight(10);
+    stroke(h.colors[col]);
+    translate(width/2,height/2);
+    scale(0.5);
+    for(let i=0; i<sides ; i++){
+      rotate(2*PI/sides);
+      fractal(1);
+    }
+    pop();
+  }
+}
+
+
+function fractal(index){
+  if(index > maxIndex){
+    return;
+  }
+  line(0,0,length,0);
+  
+  for(let i=0; i<branches; i++){
+    push();
+    translate(length/branches*(i+1),0);
+    rotate(spread);
+    scale(scaling);
+    stroke(h.colors[col]);
+    strokeWeight(10);
+    line(0,0,length,0);
+    fill(h.colors[col+1]);
+    stroke(h.grey_1);
+    strokeWeight(2);
+    //circle(random()*length/4,random()*length/4,scaling*length/4);
+    fractal(index+1);
+    pop(); 
+  }
+  
+  for(let i=0; i<branches; i++){
+    push();
+    translate(length/branches*(i+1),0);
+    rotate(-spread);
+    scale(scaling);
+    line(0,0,length,0);
+    //circle(random()*length/4,random()*length/4,scaling*length/4);
+    fractal(index+1);
+    pop();
+  }
+}
+```
+2) game_map_editor.js
+-> A very good example of ui.js library that uses ui_bundlejs as a whole.
+->Click here [p5js game_editor](https://editor.p5js.org/aadarshsah06/sketches/q9eIuB3CH)
+
+3) simple example of components
+-> It also uses ui_bundlejs
+-> ![This is a simple image](https://raw.githubusercontent.com/InnoFail/processing/main/p5js/images/ui_test_image.jpeg)
+```javascript
+let u,v,s,t,w,l;
+let n=10,m = 10;
+let h;
+let u_str = ";You ;can ;say ;so ;as.";
+let ed; 
+
+let single_clk = true;
+
+let div_test,div1;
+
+
+function setup(){
+   createCanvas(400,300);
+  //font = loadFont("Roboto.ttf");
+  h = new help();
+  u = new group(new ui().set_color(h.n_red));
+  u.ui.grid(50,50);
+  v = new slider(0,100,false,u);
+  v.slider.ui.set_snap(0,46,50,50);
+  v.bar.ui.set_str("Slide me");
+  u.copy();
+  u.child(1).ui.set_snap(0,40,5,46).set_color(h.n_yellow);
+  s = new button("Button",u);
+  s.button.ui.set_snap(2,2,s.button.ui.snaps[2]+2,s.button.ui.snaps[3]+2);
+  
+  
+  u.copy().ui.set_color(h.white).set_snap(0,0,5,2).set_str("hello1");
+  u.copy().ui.set_color(h.white).set_snap(0,0,5,2).set_str("hello2");
+  u.copy().ui.set_color(h.white).set_snap(0,0,5,2).set_str("hello3");
+  t = new list(2,[u.child(3),u.child(4),u.child(5)],u);
+  t.list.ui.set_snap(10,10,15,15);
+  t.change(0,true);
+  l = new ui().setup([100,100,100,60]).set_color(h.white).set_str("Hello I am so exhausted right now that i can,t even say now than all done i can freely").set_scroll(30,30);
+  l.set_clip(true);
+  l.set_text_color(h.n_green);
+  ed = new editor(u);
+  ed.editor.ui.del_snap(30,10,30,10);
+  
+  div_test = new div("Hello",u).del_snap(25,25,45,30).set_color(h.n_blue);
+  div1 = new div("Fello",div_test.div).del_snap_px(0,20,0,0);
+}
+
+
+function draw(){
+  //textFont(font);
+  if(s.button.ui.clicked() && single_clk){ 
+    s.shadow(0,0,0,0,h.grey);
+    t.change(0,false);
+    single_clk = false;
+  }else{
+    s.shadow(3,3,3,3,h.grey);
+    t.change(1,true);
+  }
+  u.child(1).ui.set_str(v.get_value()).set_scroll(-8,-8);
+  u.ui.draw();
+  v.draw();
+  u.child(1).ui.draw();
+  s.draw();
+  t.draw();
+  l.draw();
+  ed.key(h.get_key());
+  ed.draw();
+  
+  div_test.draw();
+  div1.draw();
+}
+
+function mouseReleased(){
+  single_clk = true;
+}
+
+
 
 ```
-
-
 ------------------------------------------------------------------
 ### Summary
 #### All the available functions :
